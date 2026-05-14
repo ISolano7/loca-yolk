@@ -1,0 +1,168 @@
+name: Deploy Prototype
+
+# ─────────────────────────────────────────────────────────────────
+# Loca Yolk — GitHub Pages Deployment Workflow
+# Managed by: Evident Technologies LLC (@DevonTyler)
+# Last updated: 2026-05-14
+#
+# Triggers on push to main. Also dispatchable manually.
+#
+# Steps:
+#   1. Prototype boundary guard (governance enforcement — blocks deploy on violation)
+#   2. CNAME validation (domain safety)
+#   3. Deployment provenance manifest (audit trail)
+#   4. GitHub Pages custom domain configuration
+#   5. GitHub Pages deployment
+#   6. Post-deploy DNS and TLS diagnostics
+#   7. Governance artifact upload (archived for 90 days)
+#
+# Permissions (minimal — principle of least privilege):
+#   contents: read     — repo checkout only
+#   pages: write       — GitHub Pages publishing
+#   id-token: write    — OIDC token for GitHub Pages auth
+# ─────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments — one deploy at a time
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+env:
+  PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js setup (for governance scripts) ─────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # ── 3. Prototype boundary guard ───────────────────────────────────────────
+      # Runs governance/boundary-check.mjs — fails the deploy on any violation.
+      # This step is non-bypassable. Do not add "continue-on-error: true" here.
+      - name: Prototype boundary guard
+        run: node scripts/boundary-check.mjs
+
+      # ── 4. CNAME validation ───────────────────────────────────────────────────
+      - name: Validate CNAME file
+        run: |
+          test -f CNAME || { echo "::error::CNAME file missing — custom domain cannot be configured"; exit 1; }
+          DOMAIN="$(tr -d '\r' < CNAME | xargs)"
+          if [ -z "${DOMAIN}" ]; then
+            echo "::error::CNAME file is empty — must contain the custom domain name"
+            exit 1
+          fi
+          echo "Custom domain: ${DOMAIN}"
+          echo "DEPLOY_DOMAIN=${DOMAIN}" >> "${GITHUB_ENV}"
+
+      # ── 5. Generate deployment provenance manifest ────────────────────────────
+      # Creates an immutable audit record linking this deploy to a specific commit.
+      - name: Generate deployment provenance
+        run: |
+          set -euo pipefail
+          mkdir -p .deployments/manifests .deployments/dns-checks
+          cat > ".deployments/manifests/deploy-${GITHUB_RUN_ID}.json" <<EOF
+          {
+            "repository": "${GITHUB_REPOSITORY}",
+            "ref": "${GITHUB_REF}",
+            "commit": "${GITHUB_SHA}",
+            "run_id": "${GITHUB_RUN_ID}",
+            "run_attempt": "${GITHUB_RUN_ATTEMPT}",
+            "build_time_utc": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "domain": "${DEPLOY_DOMAIN}",
+            "governance_profile": "${PROTOTYPE_GOVERNANCE_PROFILE}"
+          }
+          EOF
+
+      # ── 6. Set custom domain on GitHub Pages ──────────────────────────────────
+      # Ensures GitHub Pages always knows the correct custom domain.
+      # Safe to fail (||true) if Pages is not yet initialized.
+      - name: Configure custom domain on GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -s -L -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages" \
+            -d "{\"cname\":\"${DEPLOY_DOMAIN}\",\"build_type\":\"workflow\",\"https_enforced\":true}" \
+            || true
+
+      # ── 7. Configure GitHub Pages ─────────────────────────────────────────────
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # ── 8. Upload site artifact ───────────────────────────────────────────────
+      # Serving the entire repository root as the Pages site.
+      # The boundary guard has already verified this is safe.
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      # ── 9. Deploy to GitHub Pages ─────────────────────────────────────────────
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # ── 10. Post-deploy DNS and TLS diagnostics ───────────────────────────────
+      # Non-blocking — failures here do not roll back the deployment.
+      # Output is saved as an artifact for operational review.
+      - name: Post-deploy DNS and TLS diagnostics
+        if: always()
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          REPORT=".deployments/dns-checks/dns-check-${GITHUB_RUN_ID}.txt"
+          {
+            echo "timestamp_utc: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            echo "domain: ${DEPLOY_DOMAIN}"
+            echo "pages_url: ${{ steps.deployment.outputs.page_url }}"
+            echo ""
+            echo "--- nslookup ---"
+            nslookup "${DEPLOY_DOMAIN}" || true
+            echo ""
+            echo "--- cname lookup ---"
+            nslookup -type=CNAME "${DEPLOY_DOMAIN}" || true
+            echo ""
+            echo "--- tls head ---"
+            curl -I --max-time 20 "https://${DEPLOY_DOMAIN}" || true
+          } > "${REPORT}"
+          echo "DNS diagnostics saved to ${REPORT}"
+
+      # ── 11. Upload governance artifacts ───────────────────────────────────────
+      # Provenance manifests and DNS checks are archived for auditing.
+      # Retained for 90 days by default.
+      - name: Upload governance artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-governance-${{ github.run_id }}
+          path: |
+            .deployments/manifests/**
+            .deployments/dns-checks/**
+          retention-days: 90

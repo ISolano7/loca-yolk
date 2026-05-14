@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# deployment artifacts (generated at CI runtime — not committed)
+.deployments/
+
+# environment variables
+.env
+.env.*
+
+# editor directories
+.vscode/
+.idea/

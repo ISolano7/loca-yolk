@@ -1,0 +1,38 @@
+{
+  "prototype-static": {
+    "_description": "Standard Evident prototype — static HTML, no backend surfaces, no data collection",
+    "_version": "1.0.0",
+    "_source": "Adapted from Evident Technologies satellites monorepo — 2026-05-14",
+
+    "requiredMarkers": [
+      "Demo Interface",
+      "concept-demo-only",
+      "evident-build",
+      "Demo experience",
+      "Demo prototype only"
+    ],
+
+    "forbiddenPatterns": [
+      { "name": "network fetch", "regex": "\\bfetch\\s*\\(" },
+      { "name": "XMLHttpRequest", "regex": "\\bXMLHttpRequest\\b" },
+      { "name": "sendBeacon", "regex": "\\bsendBeacon\\b" },
+      { "name": "localStorage", "regex": "\\blocalStorage\\b" },
+      { "name": "sessionStorage", "regex": "\\bsessionStorage\\b" },
+      { "name": "document.cookie", "regex": "\\bdocument\\.cookie\\b" },
+      { "name": "gtag analytics", "regex": "\\bgtag\\b" },
+      { "name": "mixpanel analytics", "regex": "\\bmixpanel\\b" },
+      { "name": "posthog analytics", "regex": "\\bposthog\\b" },
+      { "name": "segment analytics", "regex": "\\bsegment\\b" },
+      { "name": "plausible analytics", "regex": "\\bplausible\\b" },
+      {
+        "name": "form submit surface",
+        "regex": "<form\\b|\\baction\\s*=|\\bmethod\\s*="
+      }
+    ],
+
+    "allowedOutboundUrls": ["http://www.w3.org/2000/svg"],
+
+    "expectedCname": "loca-yolk.evidtech.com",
+    "_cnameNote": "Override with EXPECTED_CNAME environment variable when transitioning to client-owned domain"
+  }
+}

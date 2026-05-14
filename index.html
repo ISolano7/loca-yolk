@@ -1,0 +1,1674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LOCA YOLK — American–Mexican Breakfast & Lunch</title>
+    <meta
+      name="description"
+      content="Where the border meets breakfast. American diner soul collides with bold Mexican flavor. Coming Spring 2026 to New Jersey."
+    />
+    <meta name="prototype-status" content="concept-demo-only" />
+    <meta name="evident-build" content="loca-yolk-demo-v1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+
+    <style>
+      /*
+     * LOCA YOLK — Client Prototype
+     * Digital experience by Evident Technologies LLC
+     *
+     * Design resources applied:
+     *   - @evident-technologies/sacred: golden-ratio type scale, hexagonal geometry
+     *   - @evident-technologies/design-tokens: spacing grid, elevation system, layer arch.
+     *   - @evident-technologies/creative-engine: glass panels, gradient mesh, motion choreography
+     */
+
+      /* ─── LAYER ARCHITECTURE (@evident-technologies/design-tokens pattern) ─── */
+      @layer reset, tokens, base, components, utilities;
+
+      @layer reset {
+        *,
+        *::before,
+        *::after {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        img {
+          display: block;
+          max-width: 100%;
+        }
+        ul {
+          list-style: none;
+        }
+      }
+
+      @layer tokens {
+        :root {
+          /* ── Layout Architecture: Fixed Header Stack ────────────── */
+          --ticker-height: 40px;
+          --nav-height: 72px;
+          --total-header-height: calc(var(--ticker-height) + var(--nav-height));
+
+          /* ── Z-Index Hierarchy System ────────────────────────────── */
+          /* Prevents future stacking conflicts and layer collisions */
+          --z-ticker: 100;
+          --z-nav: 200;
+          --z-drawer: 500;
+          --z-modal: 1000;
+          --z-tooltip: 1050;
+          --z-toast: 1100;
+          --z-badge: 200; /* Prototype badge level with nav */
+
+          /* ── Brand palette ───────────────────────────────────────── */
+          --cream: #f7f1e8;
+          --warm-white: #fefcf7;
+          --yellow: #ffcb05;
+          --orange: #ff6a00;
+          --red: #d72638;
+          --black: #111111;
+          --green: #1b5e20;
+
+          /* ── Evident Technologies signature tokens ───────────────── */
+          --et-sapphire: oklch(45% 0.18 255);
+          --et-emerald: oklch(50% 0.17 160);
+          --et-surface: oklch(14% 0.01 260);
+
+          /* ── Golden ratio (φ = 1.618) spacing — @evident-technologies/sacred ─── */
+          --space-xs: 4px; /* base / φ³  */
+          --space-sm: 8px; /* base / φ   */
+          --space-md: 16px; /* base       */
+          --space-lg: 32px; /* base × φ   */
+          --space-xl: 64px; /* base × φ²  */
+          --space-2xl: 128px; /* base × φ³  */
+
+          /* ── Elevation (3-tier max) ──────────────────────────────── */
+          --elev-1: 0 1px 3px oklch(0% 0 0 / 0.08);
+          --elev-2: 0 4px 12px oklch(0% 0 0 / 0.12);
+          --elev-3: 0 12px 40px oklch(0% 0 0 / 0.18);
+
+          /* ── Radius ──────────────────────────────────────────────── */
+          --radius-sm: 8px;
+          --radius-md: 16px;
+          --radius-lg: 24px;
+          --radius-full: 999px;
+
+          /* ── Motion ──────────────────────────────────────────────── */
+          --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+          --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+      }
+
+      @layer base {
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          font-family: "Inter", sans-serif;
+          background: var(--cream);
+          color: var(--black);
+          overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+          font-family: "Bebas Neue", sans-serif;
+          letter-spacing: 1px;
+          text-wrap: balance;
+        }
+
+        p {
+          text-wrap: pretty;
+        }
+
+        ::selection {
+          background: var(--yellow);
+          color: var(--black);
+        }
+
+        :focus-visible {
+          outline: 2px solid var(--yellow);
+          outline-offset: 3px;
+          border-radius: 4px;
+        }
+      }
+
+      /* ─── REDUCE MOTION — mandatory wrap ───────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      @layer components {
+        /* ═══ TICKER ═══════════════════════════════════════════════════ */
+        .ticker {
+          background: var(--yellow);
+          color: var(--black);
+          padding: var(--space-sm) 0;
+          height: var(--ticker-height);
+          overflow: hidden;
+          white-space: nowrap;
+          font-family: "Bebas Neue", sans-serif;
+          font-size: 0.95rem;
+          letter-spacing: 3px;
+          position: relative;
+          z-index: var(--z-ticker);
+          pointer-events: none;
+          display: flex;
+          align-items: center;
+        }
+
+        .ticker-track {
+          display: inline-block;
+          animation: ticker-scroll 40s linear infinite;
+        }
+
+        @keyframes ticker-scroll {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        /* ═══ NAV ═══════════════════════════════════════════════════════ */
+        .nav {
+          position: fixed;
+          top: var(--ticker-height);
+          left: 0;
+          right: 0;
+          height: var(--nav-height);
+          z-index: var(--z-nav);
+          padding: var(--space-md) var(--space-lg);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          transition:
+            background 300ms ease,
+            box-shadow 300ms ease;
+        }
+
+        .nav.scrolled {
+          background: rgba(17, 17, 17, 0.92);
+          backdrop-filter: blur(20px) saturate(1.4);
+          -webkit-backdrop-filter: blur(20px) saturate(1.4);
+          box-shadow: var(--elev-2);
+        }
+
+        .nav-logo {
+          font-family: "Bebas Neue", sans-serif;
+          font-size: 1.5rem;
+          color: var(--yellow);
+          letter-spacing: 3px;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: var(--space-sm);
+        }
+
+        .nav-links {
+          display: flex;
+          gap: var(--space-lg);
+        }
+
+        .nav-links a {
+          color: rgba(255, 255, 255, 0.82);
+          text-decoration: none;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          transition: color 200ms;
+        }
+
+        .nav-links a:hover {
+          color: var(--yellow);
+        }
+
+        @media (max-width: 640px) {
+          .nav-links {
+            display: none;
+          }
+        }
+
+        /* ═══ HERO ══════════════════════════════════════════════════════ */
+        .hero {
+          min-height: 100vh;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding-top: calc(var(--total-header-height) + var(--space-xl));
+          padding-bottom: var(--space-2xl);
+          padding-left: var(--space-lg);
+          padding-right: var(--space-lg);
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        /* Atmospheric layer (local-only, no outbound image request) */
+        .hero-photo {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(
+              circle at 20% 25%,
+              rgba(255, 203, 5, 0.22),
+              transparent 45%
+            ),
+            radial-gradient(
+              circle at 78% 35%,
+              rgba(215, 38, 56, 0.2),
+              transparent 50%
+            ),
+            linear-gradient(160deg, #2a1f14 0%, #4a2d1f 45%, #6a3b22 100%);
+          transform: scale(1.06);
+          transition: transform 10s var(--ease-out);
+          z-index: -3;
+        }
+
+        .hero-photo.loaded {
+          transform: scale(1);
+        }
+
+        /* Darkening overlay */
+        .hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.35) 50%,
+            rgba(0, 0, 0, 0.72) 100%
+          );
+          z-index: -2;
+        }
+
+        /* ── Sacred geometry (from @evident-technologies/sacred hex + circle principles) */
+        .hero-geometry {
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .geo {
+          position: absolute;
+          opacity: 0.045;
+          fill: none;
+          stroke: white;
+        }
+
+        .geo-1 {
+          top: -12%;
+          right: -8%;
+          width: 52vw;
+          min-width: 320px;
+          animation: geo-spin 90s linear infinite;
+        }
+
+        .geo-2 {
+          bottom: -18%;
+          left: -10%;
+          width: 40vw;
+          min-width: 260px;
+          animation: geo-spin 130s linear infinite reverse;
+        }
+
+        @keyframes geo-spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Hero content */
+        .hero-content {
+          max-width: 900px;
+          color: white;
+          position: relative;
+          z-index: 1;
+        }
+
+        .hero h1 {
+          /* φ⁴ scale with fluid clamp */
+          font-size: clamp(4.5rem, 12vw, 9.5rem);
+          line-height: 0.88;
+          color: var(--yellow);
+          text-shadow:
+            0 0 60px rgba(255, 203, 5, 0.22),
+            0 4px 0 rgba(0, 0, 0, 0.4);
+          letter-spacing: 4px;
+        }
+
+        .hero-tagline {
+          font-size: clamp(1rem, 2.2vw, 1.618rem); /* φ¹ scale */
+          margin-top: var(--space-lg);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 5px;
+          color: rgba(255, 255, 255, 0.88);
+        }
+
+        .hero-subcopy {
+          margin: var(--space-lg) auto 0;
+          max-width: 580px;
+          font-size: clamp(0.92rem, 1.8vw, 1.05rem);
+          line-height: 1.85;
+          color: rgba(255, 255, 255, 0.78);
+        }
+
+        .cta-row {
+          display: flex;
+          gap: var(--space-md);
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-top: var(--space-xl);
+        }
+
+        .cta-context-note {
+          margin-top: var(--space-md);
+          font-size: 0.7rem;
+          letter-spacing: 1.8px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.78);
+        }
+
+        .btn {
+          padding: 0.9rem 2rem;
+          border-radius: var(--radius-full);
+          border: none;
+          cursor: pointer;
+          font-weight: 700;
+          font-size: 0.82rem;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          transition:
+            transform 300ms var(--spring),
+            box-shadow 250ms ease,
+            background 200ms ease;
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-sm);
+          text-decoration: none;
+        }
+
+        .btn-primary {
+          background: var(--yellow);
+          color: var(--black);
+          box-shadow: 0 6px 24px rgba(255, 203, 5, 0.4);
+        }
+
+        .btn-primary:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 12px 36px rgba(255, 203, 5, 0.5);
+        }
+
+        .btn-secondary {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(8px);
+          border: 2px solid rgba(255, 255, 255, 0.5);
+          color: white;
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.18);
+          border-color: white;
+          transform: translateY(-2px);
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+          position: absolute;
+          bottom: var(--space-xl);
+          left: 50%;
+          transform: translateX(-50%);
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.62rem;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--space-sm);
+        }
+
+        .scroll-chevron {
+          width: 18px;
+          height: 18px;
+          border-right: 2px solid rgba(255, 255, 255, 0.35);
+          border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+          transform: rotate(45deg);
+          animation: chevron-pulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes chevron-pulse {
+          0%,
+          100% {
+            opacity: 0.4;
+            transform: rotate(45deg) translateY(0);
+          }
+          50% {
+            opacity: 0.8;
+            transform: rotate(45deg) translateY(5px);
+          }
+        }
+
+        /* ═══ REVEAL ANIMATION ══════════════════════════════════════════ */
+        .reveal {
+          opacity: 0;
+          transform: translateY(28px);
+          transition:
+            opacity 700ms var(--ease-out),
+            transform 700ms var(--ease-out);
+        }
+
+        .reveal.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* ═══ SECTION WRAPPER ═══════════════════════════════════════════ */
+        .section {
+          padding: var(--space-2xl) 8vw;
+        }
+
+        .eyebrow {
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          color: var(--orange);
+          margin-bottom: var(--space-md);
+          display: block;
+        }
+
+        /* ═══ ABOUT ═════════════════════════════════════════════════════ */
+        .about {
+          background: var(--warm-white);
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: var(--space-2xl);
+          align-items: start;
+        }
+
+        @media (min-width: 768px) {
+          .about {
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+          }
+        }
+
+        .about-heading {
+          font-size: clamp(2.8rem, 6vw, 5rem);
+          color: var(--red);
+          line-height: 0.93;
+        }
+
+        .about-heading .accent {
+          color: var(--orange);
+        }
+
+        .about-body p {
+          font-size: 1.05rem;
+          line-height: 1.92;
+          color: #4a4a4a;
+        }
+
+        .about-body p + p {
+          margin-top: var(--space-lg);
+        }
+
+        /* Stat cards */
+        .stats {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--space-md);
+          margin-top: var(--space-xl);
+        }
+
+        @media (min-width: 480px) {
+          .stats {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        .stat {
+          background: white;
+          padding: var(--space-lg) var(--space-md);
+          border-radius: var(--radius-lg);
+          text-align: center;
+          box-shadow: var(--elev-2);
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          transition:
+            transform 300ms var(--spring),
+            box-shadow 300ms ease;
+        }
+
+        .stat:hover {
+          transform: translateY(-6px);
+          box-shadow: var(--elev-3);
+        }
+
+        .stat-value {
+          font-family: "Bebas Neue", sans-serif;
+          font-size: 2.6rem;
+          color: var(--orange);
+          line-height: 1;
+        }
+
+        .stat-label {
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #999;
+          margin-top: var(--space-sm);
+        }
+
+        /* ═══ MENU ══════════════════════════════════════════════════════ */
+        .menu {
+          background: var(--black);
+          color: white;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        /* Subtle mesh gradient backdrop — @evident-technologies/creative-engine mesh pattern */
+        .menu-mesh {
+          position: absolute;
+          inset: -50%;
+          background:
+            radial-gradient(
+              circle at 20% 30%,
+              oklch(30% 0.18 20 / 0.25),
+              transparent 45%
+            ),
+            radial-gradient(
+              circle at 80% 70%,
+              oklch(35% 0.15 60 / 0.18),
+              transparent 45%
+            );
+          filter: blur(80px);
+          pointer-events: none;
+          z-index: -1;
+          animation: mesh-drift 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes mesh-drift {
+          from {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          to {
+            transform: translate(4%, -3%) rotate(2deg);
+          }
+        }
+
+        .menu-heading {
+          font-size: clamp(3.5rem, 8vw, 7rem);
+          color: var(--yellow);
+          line-height: 1;
+        }
+
+        .menu-sub {
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 0.72rem;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          margin-top: var(--space-sm);
+        }
+
+        .menu-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: var(--space-lg);
+          margin-top: var(--space-xl);
+          text-align: left;
+        }
+
+        .menu-card {
+          background: #1d1d1d;
+          padding: var(--space-xl) var(--space-lg);
+          border-radius: var(--radius-lg);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          position: relative;
+          overflow: hidden;
+          transition:
+            transform 300ms var(--spring),
+            background 250ms ease,
+            box-shadow 300ms ease;
+        }
+
+        /* Top accent bar reveals on hover */
+        .menu-card::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, var(--orange), var(--yellow));
+          opacity: 0;
+          transition: opacity 300ms;
+        }
+
+        .menu-card:hover {
+          transform: translateY(-8px);
+          background: #242424;
+          box-shadow: 0 24px 60px rgba(255, 106, 0, 0.14);
+        }
+
+        .menu-card:hover::before {
+          opacity: 1;
+        }
+
+        .menu-emoji {
+          font-size: 2.2rem;
+          display: block;
+          margin-bottom: var(--space-md);
+          line-height: 1;
+        }
+
+        .menu-card h3 {
+          font-size: 1.75rem;
+          color: var(--yellow);
+          margin-bottom: var(--space-sm);
+        }
+
+        .menu-card p {
+          color: rgba(255, 255, 255, 0.58);
+          font-size: 0.92rem;
+          line-height: 1.75;
+        }
+
+        .menu-meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: var(--space-md);
+          padding-top: var(--space-md);
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .menu-category {
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.35);
+        }
+
+        .menu-heat {
+          font-size: 0.85rem;
+        }
+
+        /* ═══ WEEKLY SPECIALS ═══════════════════════════════════════════ */
+        .weekly {
+          background: linear-gradient(
+            135deg,
+            var(--red) 0%,
+            var(--orange) 100%
+          );
+          color: white;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        /* Sacred geometry overlay on weekly section */
+        .weekly-geo {
+          position: absolute;
+          opacity: 0.055;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .weekly-geo-1 {
+          top: -20%;
+          right: -8%;
+          width: 45vw;
+          min-width: 280px;
+          animation: geo-spin 100s linear infinite;
+        }
+
+        .weekly-geo-2 {
+          bottom: -20%;
+          left: -6%;
+          width: 35vw;
+          min-width: 220px;
+          animation: geo-spin 150s linear infinite reverse;
+        }
+
+        .weekly-inner {
+          position: relative;
+          z-index: 1;
+        }
+
+        .weekly-heading {
+          font-size: clamp(3rem, 7vw, 6.5rem);
+          text-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .weekly-sub {
+          font-style: italic;
+          opacity: 0.82;
+          font-size: 1.08rem;
+          margin-top: var(--space-sm);
+        }
+
+        .days {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: var(--space-md);
+          margin-top: var(--space-xl);
+        }
+
+        /* Glass panel — @evident-technologies/creative-engine glass system */
+        .day {
+          background: color-mix(in oklch, white 14%, transparent);
+          backdrop-filter: blur(14px) saturate(1.3);
+          -webkit-backdrop-filter: blur(14px) saturate(1.3);
+          padding: var(--space-xl) var(--space-md);
+          border-radius: var(--radius-md);
+          border: 1px solid rgba(255, 255, 255, 0.22);
+          cursor: default;
+          transition:
+            transform 250ms var(--spring),
+            background 250ms ease;
+        }
+
+        .day:hover {
+          transform: translateY(-5px) scale(1.02);
+          background: color-mix(in oklch, white 22%, transparent);
+        }
+
+        .day-label {
+          font-size: 0.6rem;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          font-family: "Inter", sans-serif;
+          opacity: 0.65;
+          margin-bottom: var(--space-sm);
+          display: block;
+        }
+
+        .day-name {
+          font-family: "Bebas Neue", sans-serif;
+          font-size: 1.35rem;
+          letter-spacing: 2px;
+          line-height: 1.1;
+        }
+
+        /* ═══ HOURS ═════════════════════════════════════════════════════ */
+        .hours {
+          background: var(--warm-white);
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: var(--space-2xl);
+          align-items: center;
+        }
+
+        @media (min-width: 768px) {
+          .hours {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        .hours-heading {
+          font-size: clamp(2.8rem, 5vw, 4.5rem);
+          line-height: 0.95;
+          margin-bottom: var(--space-xl);
+        }
+
+        .hours-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .hours-table tr {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+        }
+        .hours-table tr:last-child {
+          border-bottom: none;
+        }
+
+        .hours-table td {
+          padding: var(--space-md) 0;
+          font-size: 0.95rem;
+          line-height: 1.4;
+        }
+
+        .hours-table td:first-child {
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: var(--orange);
+          font-size: 0.78rem;
+        }
+
+        .hours-table td:last-child {
+          text-align: right;
+          color: #666;
+        }
+
+        @media (max-width: 640px) {
+          .section {
+            padding: var(--space-xl) 6vw;
+          }
+
+          .hero {
+            padding: var(--space-xl) var(--space-md);
+          }
+
+          .prototype-badge {
+            right: var(--space-md);
+            bottom: var(--space-md);
+          }
+        }
+
+        .location-card {
+          background: white;
+          padding: var(--space-xl);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--elev-2);
+          border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .location-card h3 {
+          font-size: 1.8rem;
+          color: var(--red);
+          margin-bottom: var(--space-md);
+        }
+
+        .location-card p {
+          color: #666;
+          line-height: 1.9;
+          font-size: 1rem;
+        }
+
+        .location-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-sm);
+          background: var(--yellow);
+          color: var(--black);
+          padding: var(--space-sm) var(--space-lg);
+          border-radius: var(--radius-full);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-top: var(--space-lg);
+        }
+
+        /* ═══ ONLINE ORDER BANNER ═══════════════════════════════════════ */
+        .order-banner {
+          background: linear-gradient(135deg, #1b5e20, #2e7d32);
+          color: white;
+          text-align: center;
+          padding: var(--space-lg) var(--space-xl);
+          font-size: 0.72rem;
+          letter-spacing: 3px;
+          font-weight: 700;
+          text-transform: uppercase;
+          border: none;
+        }
+
+        /* ═══ FOOTER ════════════════════════════════════════════════════ */
+        .footer {
+          background: var(--black);
+          color: white;
+          text-align: center;
+          padding: var(--space-2xl) var(--space-lg);
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
+        }
+
+        /* Subtle footer mesh */
+        .footer-mesh {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: -1;
+          background:
+            radial-gradient(
+              circle at 20% 80%,
+              oklch(25% 0.08 255 / 0.35),
+              transparent 50%
+            ),
+            radial-gradient(
+              circle at 80% 20%,
+              oklch(25% 0.07 165 / 0.25),
+              transparent 50%
+            );
+        }
+
+        .footer-wordmark {
+          font-family: "Bebas Neue", sans-serif;
+          font-size: clamp(3rem, 7vw, 5.5rem);
+          color: var(--yellow);
+          letter-spacing: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--space-md);
+          line-height: 1;
+        }
+
+        .footer-sub {
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.35);
+          margin-top: var(--space-md);
+        }
+
+        .footer-social {
+          margin-top: var(--space-xl);
+          font-weight: 700;
+          color: var(--yellow);
+          letter-spacing: 2px;
+          font-size: 1rem;
+        }
+
+        .footer-tags {
+          margin-top: var(--space-sm);
+          color: rgba(255, 255, 255, 0.3);
+          font-size: 0.8rem;
+          letter-spacing: 1px;
+        }
+
+        .footer-rule {
+          width: 64px;
+          height: 2px;
+          background: linear-gradient(90deg, var(--orange), var(--yellow));
+          border: none;
+          margin: var(--space-xl) auto;
+        }
+
+        .footer-copy {
+          color: rgba(255, 255, 255, 0.25);
+          font-size: 0.7rem;
+          letter-spacing: 1px;
+        }
+
+        .footer-prototype-notice {
+          margin-top: var(--space-md);
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.64rem;
+          letter-spacing: 1.4px;
+          text-transform: uppercase;
+          line-height: 1.8;
+        }
+
+        /* ═══ EVIDENT TECHNOLOGIES WATERMARK ═══════════════════════════ */
+        /*
+       * Applied to mark this work as an Evident Technologies LLC digital
+       * experience — presented here as a prototype for client review.
+       */
+        .et-watermark {
+          margin-top: var(--space-2xl);
+          padding-top: var(--space-xl);
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--space-sm);
+        }
+
+        .et-watermark-eyebrow {
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.18);
+        }
+
+        .et-watermark-lockup {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: rgba(255, 255, 255, 0.32);
+          transition: color 350ms ease;
+          cursor: default;
+        }
+
+        .et-watermark-lockup:hover {
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .et-wordmark {
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          font-family: "Inter", sans-serif;
+        }
+
+        /* Prototype corner badge */
+        .prototype-badge {
+          position: fixed;
+          bottom: var(--space-lg);
+          right: var(--space-lg);
+          z-index: var(--z-badge);
+          background: rgba(17, 17, 17, 0.88);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: var(--radius-md);
+          padding: var(--space-sm) var(--space-md);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          pointer-events: auto;
+          box-shadow: var(--elev-3);
+        }
+
+        .prototype-badge-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: linear-gradient(
+            135deg,
+            var(--et-sapphire),
+            var(--et-emerald)
+          );
+          animation: dot-pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes dot-pulse {
+          0%,
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(0.7);
+          }
+        }
+
+        .prototype-badge-text {
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.5);
+          font-family: "Inter", sans-serif;
+          line-height: 1.2;
+        }
+
+        .prototype-badge-text strong {
+          display: block;
+          color: rgba(255, 255, 255, 0.75);
+          letter-spacing: 1px;
+        }
+      } /* end @layer components */
+    </style>
+  </head>
+
+  <body>
+    <!-- ── TICKER ──────────────────────────────────────────────────── -->
+    <div class="ticker" aria-hidden="true">
+      <span class="ticker-track" aria-hidden="true">
+        HUEVOS RANCHEROS &nbsp;•&nbsp; CHORIZO SUNRISE &nbsp;•&nbsp; MIGAS
+        MAGNIFICAS &nbsp;•&nbsp; THE JALAPEÑO QUEEN &nbsp;•&nbsp; DESPERADO
+        BURRITO &nbsp;•&nbsp; BORDER PATROL CHILAQUILES &nbsp;•&nbsp; MOLE
+        MONDAY &nbsp;•&nbsp; TACO TUESDAY &nbsp;•&nbsp; BIRRIA HUMP DAY
+        &nbsp;•&nbsp; POZOLE THURSDAY &nbsp;•&nbsp; SEAFOOD FRIDAY &nbsp;•&nbsp;
+        BRUNCH LOCO &nbsp;•&nbsp; HUEVOS RANCHEROS &nbsp;•&nbsp; CHORIZO SUNRISE
+        &nbsp;•&nbsp; MIGAS MAGNIFICAS &nbsp;•&nbsp; THE JALAPEÑO QUEEN
+        &nbsp;•&nbsp; DESPERADO BURRITO &nbsp;•&nbsp; BORDER PATROL CHILAQUILES
+        &nbsp;•&nbsp; MOLE MONDAY &nbsp;•&nbsp; TACO TUESDAY &nbsp;•&nbsp;
+        BIRRIA HUMP DAY &nbsp;•&nbsp; POZOLE THURSDAY &nbsp;•&nbsp; SEAFOOD
+        FRIDAY &nbsp;•&nbsp; BRUNCH LOCO &nbsp;•&nbsp;
+      </span>
+    </div>
+
+    <!-- ── NAV ────────────────────────────────────────────────────── -->
+    <nav class="nav" id="main-nav" aria-label="Main navigation">
+      <a href="#hero" class="nav-logo" aria-label="Loca Yolk home">
+        <span aria-hidden="true">🍳</span> LOCA YOLK
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#specials">Specials</a></li>
+        <li><a href="#hours">Hours</a></li>
+      </ul>
+    </nav>
+
+    <!-- ── HERO ───────────────────────────────────────────────────── -->
+    <section class="hero" id="hero" aria-labelledby="hero-h1">
+      <div class="hero-photo" id="hero-photo" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Sacred geometry — hexagonal + circular forms from @evident-technologies/sacred -->
+      <div class="hero-geometry" aria-hidden="true">
+        <svg
+          class="geo geo-1"
+          viewBox="0 0 400 400"
+          xmlns="http://www.w3.org/2000/svg"
+          role="presentation"
+        >
+          <polygon
+            points="200,18 374,109 374,291 200,382 26,291 26,109"
+            stroke-width="1"
+          />
+          <polygon
+            points="200,58 344,131 344,269 200,342 56,269 56,131"
+            stroke-width="0.7"
+          />
+          <polygon
+            points="200,98 314,153 314,247 200,302 86,247 86,153"
+            stroke-width="0.5"
+          />
+          <circle cx="200" cy="200" r="148" stroke-width="0.5" />
+          <circle cx="200" cy="200" r="108" stroke-width="0.4" />
+          <circle cx="200" cy="200" r="68" stroke-width="0.4" />
+          <circle cx="200" cy="200" r="28" stroke-width="0.5" />
+          <line x1="200" y1="18" x2="200" y2="382" stroke-width="0.25" />
+          <line x1="26" y1="109" x2="374" y2="291" stroke-width="0.25" />
+          <line x1="26" y1="291" x2="374" y2="109" stroke-width="0.25" />
+        </svg>
+        <svg
+          class="geo geo-2"
+          viewBox="0 0 400 400"
+          xmlns="http://www.w3.org/2000/svg"
+          role="presentation"
+        >
+          <polygon points="200,12 388,200 200,388 12,200" stroke-width="1" />
+          <polygon points="200,64 336,200 200,336 64,200" stroke-width="0.7" />
+          <polygon
+            points="200,116 284,200 200,284 116,200"
+            stroke-width="0.5"
+          />
+          <circle cx="200" cy="200" r="136" stroke-width="0.5" />
+          <circle cx="200" cy="200" r="96" stroke-width="0.4" />
+          <circle cx="200" cy="200" r="50" stroke-width="0.4" />
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <h1 id="hero-h1">LOCA YOLK</h1>
+        <p class="hero-tagline">Where the Border Meets Breakfast</p>
+        <p class="hero-subcopy">
+          American diner soul collides with bold Mexican flavor. Fresh
+          tortillas. Slow-cooked salsa. Local eggs. Enough chile heat to wake
+          the dead.
+        </p>
+        <div class="cta-row">
+          <a
+            href="#menu"
+            class="btn btn-primary"
+            aria-describedby="demo-interface-note"
+            >Preview Menu Section</a
+          >
+          <a
+            href="#hours"
+            class="btn btn-secondary"
+            aria-describedby="demo-interface-note"
+            >Explore Concept Timeline</a
+          >
+        </div>
+        <p class="cta-context-note" id="demo-interface-note">
+          Demo Interface · Concept Navigation Only
+        </p>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-chevron"></div>
+      </div>
+    </section>
+
+    <!-- ── ABOUT ──────────────────────────────────────────────────── -->
+    <section class="section about" id="about" aria-labelledby="about-h2">
+      <div class="reveal">
+        <span class="eyebrow">Our Story</span>
+        <h2 id="about-h2" class="about-heading">
+          BORN ON THE BORDER.<br />
+          <span class="accent">RAISED ON THE RANCH.</span>
+        </h2>
+      </div>
+
+      <div class="reveal" style="transition-delay: 120ms">
+        <div class="about-body">
+          <p>
+            LOCA YOLK is the wildly delicious collision of American breakfast
+            culture and the soulful flavors of Mexico — slow-cooked salsas,
+            hand-pressed tortillas, local eggs, and enough chile heat to wake
+            the dead.
+          </p>
+          <p>
+            We open at sunrise and close when the last plate is licked clean.
+            Every dish tells a story. Every bite is a border crossing.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat reveal" style="transition-delay: 200ms">
+            <div class="stat-value">23</div>
+            <div class="stat-label">Menu Items</div>
+          </div>
+          <div class="stat reveal" style="transition-delay: 280ms">
+            <div class="stat-value">7AM</div>
+            <div class="stat-label">Opens Daily</div>
+          </div>
+          <div class="stat reveal" style="transition-delay: 360ms">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Fresh Tortillas</div>
+          </div>
+          <div class="stat reveal" style="transition-delay: 440ms">
+            <div
+              class="stat-value"
+              aria-label="Max heat — three chilies"
+              style="font-size: 2rem"
+            >
+              🌶🌶🌶
+            </div>
+            <div class="stat-label">Max Heat Level</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MENU ───────────────────────────────────────────────────── -->
+    <section class="section menu" id="menu" aria-labelledby="menu-h2">
+      <div class="menu-mesh" aria-hidden="true"></div>
+
+      <div class="reveal">
+        <span class="eyebrow" style="color: rgba(255, 203, 5, 0.55)"
+          >— The Menu —</span
+        >
+        <h2 class="menu-heading" id="menu-h2">WHAT'S COOKIN'</h2>
+        <p class="menu-sub">Signature plates &nbsp;•&nbsp; Made fresh daily</p>
+      </div>
+
+      <div class="menu-grid">
+        <article class="menu-card reveal" style="transition-delay: 80ms">
+          <span class="menu-emoji" aria-hidden="true">🍳</span>
+          <h3>Huevos Rancheros</h3>
+          <p>
+            Ranch-style eggs over crispy tortillas, smothered in house red salsa
+            and crowned with queso fresco.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Breakfast</span>
+            <span class="menu-heat" aria-label="Two chili heat level"
+              >🌶🌶</span
+            >
+          </div>
+        </article>
+
+        <article class="menu-card reveal" style="transition-delay: 160ms">
+          <span class="menu-emoji" aria-hidden="true">🌯</span>
+          <h3>Desperado Burrito</h3>
+          <p>
+            A breakfast outlaw stuffed with spiced chorizo, scrambled eggs,
+            roasted peppers, and contraband salsa verde.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Breakfast</span>
+            <span class="menu-heat" aria-label="Three chili heat level"
+              >🌶🌶🌶</span
+            >
+          </div>
+        </article>
+
+        <article class="menu-card reveal" style="transition-delay: 240ms">
+          <span class="menu-emoji" aria-hidden="true">🥚</span>
+          <h3>Migas Magnificas</h3>
+          <p>
+            Crunchy tortilla strips, scrambled eggs, melted cheese, roasted
+            chiles, and the beautiful chaos that follows.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Breakfast</span>
+            <span class="menu-heat" aria-label="One chili heat level">🌶</span>
+          </div>
+        </article>
+
+        <article class="menu-card reveal" style="transition-delay: 320ms">
+          <span class="menu-emoji" aria-hidden="true">🌮</span>
+          <h3>Border Patrol Chilaquiles</h3>
+          <p>
+            Red sauce. Crispy chips. Crema. Cotija. Absolute destruction. You
+            won't want anything else.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Breakfast</span>
+            <span class="menu-heat" aria-label="Three chili heat level"
+              >🌶🌶🌶</span
+            >
+          </div>
+        </article>
+
+        <article class="menu-card reveal" style="transition-delay: 400ms">
+          <span class="menu-emoji" aria-hidden="true">☀️</span>
+          <h3>Chorizo Sunrise</h3>
+          <p>
+            Spiced Mexican chorizo, sunny-side up eggs, sliced avocado, and warm
+            hand-pressed tortillas.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Breakfast</span>
+            <span class="menu-heat" aria-label="Two chili heat level"
+              >🌶🌶</span
+            >
+          </div>
+        </article>
+
+        <article class="menu-card reveal" style="transition-delay: 480ms">
+          <span class="menu-emoji" aria-hidden="true">👑</span>
+          <h3>The Jalapeño Queen</h3>
+          <p>
+            Jalapeño hash, eggs your way, pickled pepper crown. Not for the
+            faint of heart. You've been warned.
+          </p>
+          <div class="menu-meta">
+            <span class="menu-category">Lunch</span>
+            <span class="menu-heat" aria-label="Three chili heat level"
+              >🌶🌶🌶</span
+            >
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── WEEKLY SPECIALS ────────────────────────────────────────── -->
+    <section class="section weekly" id="specials" aria-labelledby="weekly-h2">
+      <!-- Sacred geometry overlay -->
+      <svg
+        class="weekly-geo weekly-geo-1"
+        viewBox="0 0 400 400"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <polygon
+          points="200,18 374,109 374,291 200,382 26,291 26,109"
+          stroke="white"
+          stroke-width="1"
+        />
+        <polygon
+          points="200,78 314,139 314,261 200,322 86,261 86,139"
+          stroke="white"
+          stroke-width="0.7"
+        />
+        <circle cx="200" cy="200" r="150" stroke="white" stroke-width="0.6" />
+        <circle cx="200" cy="200" r="100" stroke="white" stroke-width="0.5" />
+      </svg>
+      <svg
+        class="weekly-geo weekly-geo-2"
+        viewBox="0 0 400 400"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <polygon
+          points="200,12 388,200 200,388 12,200"
+          stroke="white"
+          stroke-width="1"
+        />
+        <polygon
+          points="200,80 320,200 200,320 80,200"
+          stroke="white"
+          stroke-width="0.7"
+        />
+        <circle cx="200" cy="200" r="130" stroke="white" stroke-width="0.5" />
+      </svg>
+
+      <div class="weekly-inner">
+        <div class="reveal">
+          <span class="eyebrow" style="color: rgba(255, 255, 255, 0.5)"
+            >— Limited Time —</span
+          >
+          <h2 class="weekly-heading" id="weekly-h2">WEEKLY SPECIALS</h2>
+          <p class="weekly-sub">
+            Every day has its own flavor. Come back hungry.
+          </p>
+        </div>
+
+        <div class="days">
+          <div class="day reveal" style="transition-delay: 80ms">
+            <span class="day-label">Monday</span>
+            <span class="day-name">Mole Monday</span>
+          </div>
+          <div class="day reveal" style="transition-delay: 150ms">
+            <span class="day-label">Tuesday</span>
+            <span class="day-name">Taco Tuesday</span>
+          </div>
+          <div class="day reveal" style="transition-delay: 220ms">
+            <span class="day-label">Wednesday</span>
+            <span class="day-name">Birria Hump Day</span>
+          </div>
+          <div class="day reveal" style="transition-delay: 290ms">
+            <span class="day-label">Thursday</span>
+            <span class="day-name">Pozole Thursday</span>
+          </div>
+          <div class="day reveal" style="transition-delay: 360ms">
+            <span class="day-label">Friday</span>
+            <span class="day-name">Seafood Friday</span>
+          </div>
+          <div class="day reveal" style="transition-delay: 430ms">
+            <span class="day-label">Sat / Sun</span>
+            <span class="day-name">Brunch Loco 🎉</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOURS ──────────────────────────────────────────────────── -->
+    <section class="section hours" id="hours" aria-labelledby="hours-h2">
+      <div class="reveal">
+        <span class="eyebrow">Visit Us</span>
+        <h2 id="hours-h2" class="hours-heading">HOURS &amp;<br />LOCATION</h2>
+        <table class="hours-table" aria-label="Business hours">
+          <tbody>
+            <tr>
+              <td>Mon – Fri</td>
+              <td>7:00 AM – 3:00 PM</td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td>8:00 AM – 4:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td>9:00 AM – 3:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reveal" style="transition-delay: 150ms">
+        <div class="location-card">
+          <h3>📍 Find Us</h3>
+          <p>
+            Somewhere in New Jersey<br />
+            where the vibes are right<br />
+            and the coffee is strong.
+          </p>
+          <p
+            style="
+              margin-top: 1rem;
+              font-size: 0.88rem;
+              color: #999;
+              line-height: 1.7;
+            "
+          >
+            Exact location announced Spring 2026.<br />
+            Follow <strong style="color: #555">@locayolk</strong> for the
+            reveal.
+          </p>
+          <div class="location-badge">📍 Coming Spring 2026</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ONLINE ORDER BANNER ────────────────────────────────────── -->
+    <div
+      class="order-banner"
+      role="complementary"
+      aria-label="Ordering concept notice"
+    >
+      🌐 &nbsp; Ordering preview only · no live transactions &nbsp;•&nbsp;
+      Follow @locayolk for updates &nbsp; 🌐
+    </div>
+
+    <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+    <footer class="footer">
+      <div class="footer-mesh" aria-hidden="true"></div>
+
+      <div class="footer-wordmark" aria-label="Loca Yolk">
+        <span aria-hidden="true">🍳</span>
+        LOCA YOLK
+      </div>
+
+      <p class="footer-sub">
+        Born on the Border. Raised on the Ranch.<br />
+        American–Mexican Breakfast &amp; Lunch &nbsp;•&nbsp; Est. 2026
+      </p>
+
+      <p class="footer-social">@locayolk</p>
+
+      <p class="footer-tags">
+        #LocaYolk2026 &nbsp;•&nbsp; #BornOnTheBorder &nbsp;•&nbsp; #NJBreakfast
+      </p>
+
+      <hr class="footer-rule" aria-hidden="true" />
+
+      <p class="footer-copy">
+        © 2026 Loca Yolk LLC &nbsp;•&nbsp; New Jersey &nbsp;•&nbsp; All eggs
+        broken with love
+      </p>
+
+      <p class="footer-prototype-notice">
+        Concept prototype by Evident Technologies<br />
+        Demo experience — not production ordering infrastructure
+      </p>
+
+      <!-- ── EVIDENT TECHNOLOGIES LLC WATERMARK ────────────────────── -->
+      <div
+        class="et-watermark"
+        aria-label="Digital experience by Evident Technologies LLC"
+      >
+        <span class="et-watermark-eyebrow">Digital experience designed by</span>
+        <div class="et-watermark-lockup">
+          <!-- ET geometric mark — hexagonal sacred geometry logo -->
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 40 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <polygon
+              points="20,2 38,11 38,29 20,38 2,29 2,11"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <polygon
+              points="20,10 30,15.5 30,24.5 20,30 10,24.5 10,15.5"
+              stroke="currentColor"
+              stroke-width="1"
+              fill="none"
+            />
+            <circle cx="20" cy="20" r="4" fill="currentColor" opacity="0.55" />
+          </svg>
+          <span class="et-wordmark">Evident Technologies LLC</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ── PROTOTYPE BADGE ────────────────────────────────────────── -->
+    <aside class="prototype-badge" role="note" aria-label="Prototype notice">
+      <div class="prototype-badge-dot" aria-hidden="true"></div>
+      <div class="prototype-badge-text">
+        <strong>Evident Technologies LLC</strong>
+        Demo prototype only · 2026
+      </div>
+    </aside>
+
+    <script>
+      "use strict";
+
+      // ── Sticky nav ─────────────────────────────────────────────────
+      const nav = document.getElementById("main-nav");
+      window.addEventListener(
+        "scroll",
+        () => {
+          nav.classList.toggle("scrolled", window.scrollY > 60);
+        },
+        { passive: true },
+      );
+
+      // ── Intersection Observer reveal ──────────────────────────────
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -32px 0px" },
+      );
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => revealObserver.observe(el));
+
+      // ── Hero photo parallax + scale-in ────────────────────────────
+      const heroPhoto = document.getElementById("hero-photo");
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (heroPhoto && !prefersReducedMotion) {
+        // Scale-in on load
+        requestAnimationFrame(() => heroPhoto.classList.add("loaded"));
+
+        // Subtle parallax
+        window.addEventListener(
+          "scroll",
+          () => {
+            const y = window.scrollY;
+            if (y < window.innerHeight) {
+              heroPhoto.style.transform = `scale(1) translateY(${y * 0.18}px)`;
+            }
+          },
+          { passive: true },
+        );
+      } else if (heroPhoto) {
+        heroPhoto.classList.add("loaded");
+      }
+    </script>
+  </body>
+</html>

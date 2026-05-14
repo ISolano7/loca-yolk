@@ -1,0 +1,13 @@
+{
+  "name": "loca-yolk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Loca Yolk — American-Mexican Breakfast & Lunch prototype",
+  "scripts": {
+    "check": "node scripts/boundary-check.mjs",
+    "preview": "npx serve ."
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,34 @@
+# CODEOWNERS — Loca Yolk
+
+# Owner: Ivan Solano (@ISolano7)
+
+# Managed by: Evident Technologies LLC (@DevonTyler)
+
+#
+
+# Every change to this repository requires approval from the owner.
+
+# Governance and infrastructure changes additionally require Evident manager approval.
+
+# This ensures both client ownership and infrastructure integrity are maintained.
+
+#
+
+# Rules are evaluated bottom-up (later rules take priority over earlier ones).
+
+#
+
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Repository-wide default: owner approval required on all changes
+
+-               @ISolano7
+
+# Governance and CI/CD infrastructure: joint approval required
+
+/.github/ @ISolano7 @DevonTyler
+/scripts/ @ISolano7 @DevonTyler
+
+# Core prototype content: joint approval required
+
+/index.html @ISolano7 @DevonTyler
