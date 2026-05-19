@@ -29,7 +29,7 @@ Please include:
 This repository deploys to GitHub Pages via GitHub Actions. Access is managed by:
 
 - **Repository owner:** Ivan Solano (@ISolano7)
-- **Infrastructure manager:** Devon Tyler Barber, Evident Technologies LLC (@DevonTyler)
+- **Infrastructure manager:** Devon Tyler Barber, Evident Technologies LLC (@xTx396)
 
 ---
 
