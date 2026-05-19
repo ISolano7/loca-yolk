@@ -33,7 +33,6 @@ env:
 jobs:
   # Job name must match the required status check: "deploy"
   deploy:
-    name: Validate (PR gate)
     runs-on: ubuntu-latest
 
     steps:
