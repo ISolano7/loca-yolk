@@ -2,7 +2,7 @@
 
 # Owner: Ivan Solano (@ISolano7)
 
-# Managed by: Evident Technologies LLC (@DevonTyler)
+# Managed by: Evident Technologies LLC (@xTx396)
 
 #
 
@@ -26,9 +26,9 @@
 
 # Governance and CI/CD infrastructure: joint approval required
 
-/.github/ @ISolano7 @DevonTyler
-/scripts/ @ISolano7 @DevonTyler
+/.github/ @ISolano7 @xTx396
+/scripts/ @ISolano7 @xTx396
 
 # Core prototype content: joint approval required
 
-/index.html @ISolano7 @DevonTyler
+/index.html @ISolano7 @xTx396

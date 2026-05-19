@@ -12,8 +12,12 @@
     <meta name="evident-build" content="loca-yolk-demo-v1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap" />
 
     <style>
       /*
@@ -1615,60 +1619,6 @@
       </div>
     </aside>
 
-    <script>
-      "use strict";
-
-      // ── Sticky nav ─────────────────────────────────────────────────
-      const nav = document.getElementById("main-nav");
-      window.addEventListener(
-        "scroll",
-        () => {
-          nav.classList.toggle("scrolled", window.scrollY > 60);
-        },
-        { passive: true },
-      );
-
-      // ── Intersection Observer reveal ──────────────────────────────
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.08, rootMargin: "0px 0px -32px 0px" },
-      );
-
-      document
-        .querySelectorAll(".reveal")
-        .forEach((el) => revealObserver.observe(el));
-
-      // ── Hero photo parallax + scale-in ────────────────────────────
-      const heroPhoto = document.getElementById("hero-photo");
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-
-      if (heroPhoto && !prefersReducedMotion) {
-        // Scale-in on load
-        requestAnimationFrame(() => heroPhoto.classList.add("loaded"));
-
-        // Subtle parallax
-        window.addEventListener(
-          "scroll",
-          () => {
-            const y = window.scrollY;
-            if (y < window.innerHeight) {
-              heroPhoto.style.transform = `scale(1) translateY(${y * 0.18}px)`;
-            }
-          },
-          { passive: true },
-        );
-      } else if (heroPhoto) {
-        heroPhoto.classList.add("loaded");
-      }
-    </script>
+    <script src="scripts/app.js"></script>
   </body>
 </html>
