@@ -1,0 +1,65 @@
+name: Validate PR
+
+# ─────────────────────────────────────────────────────────────────
+# Loca Yolk — PR Validation Workflow
+# Managed by: Evident Technologies LLC (@xTx396)
+# Last updated: 2026-05-19
+#
+# Runs on pull requests targeting main.
+# Satisfies the required "deploy" status check so PRs can be merged.
+#
+# Steps:
+#   1. Prototype boundary guard (same enforcement as production deploy)
+#   2. CNAME validation
+#
+# This workflow does NOT deploy to GitHub Pages.
+# Actual deployment occurs via deploy.yml on push to main.
+#
+# Permissions (minimal — read-only):
+#   contents: read
+# ─────────────────────────────────────────────────────────────────
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
+
+jobs:
+  # Job name must match the required status check: "deploy"
+  deploy:
+    name: Validate (PR gate)
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js setup ─────────────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # ── 3. Prototype boundary guard ──────────────────────────────────────────
+      # Same enforcement as production — PRs cannot bypass governance checks.
+      # Do not add "continue-on-error: true" here.
+      - name: Prototype boundary guard
+        run: node scripts/boundary-check.mjs
+
+      # ── 4. CNAME validation ───────────────────────────────────────────────────
+      - name: Validate CNAME file
+        run: |
+          test -f CNAME || { echo "::error::CNAME file missing"; exit 1; }
+          DOMAIN="$(tr -d '\r' < CNAME | xargs)"
+          if [ -z "${DOMAIN}" ]; then
+            echo "::error::CNAME file is empty"
+            exit 1
+          fi
+          echo "Custom domain: ${DOMAIN}"
