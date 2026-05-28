@@ -1,8 +1,8 @@
 {
   "prototype-static": {
-    "_description": "Standard Evident prototype \u2014 static HTML, no backend surfaces, no data collection",
+    "_description": "Standard Evident prototype — static HTML, no backend surfaces, no data collection",
     "_version": "1.0.0",
-    "_source": "Adapted from Evident Technologies satellites monorepo \u2014 2026-05-14",
+    "_source": "Adapted from Evident Technologies satellites monorepo — 2026-05-14",
     "requiredMarkers": [
       "Demo Interface",
       "concept-demo-only",
@@ -65,10 +65,10 @@
       "https://fonts.googleapis.com",
       "https://fonts.googleapis.com;",
       "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap",
-      "https://fonts.gstatic.com"
+      "https://fonts.gstatic.com",
       "https://isolano7.github.io/loca-yolk/"
     ],
-    "expectedCname": "https://isolano7.github.io/loca-yolk/",
-    "_cnameNote": "Override with EXPECTED_CNAME environment variable when transitioning to client-owned domain"
+    "expectedCname": "",
+    "_cnameNote": "GitHub Pages native deployment — no custom CNAME configured"
   }
 }
