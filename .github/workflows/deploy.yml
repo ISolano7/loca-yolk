@@ -6,8 +6,11 @@ on:
       - main
 
   workflow_dispatch:
+  
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
+
 permissions:
   contents: read
   pages: write
@@ -16,9 +19,6 @@ permissions:
 concurrency:
   group: github-pages
   cancel-in-progress: true
-
-env:
-  PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
 
 jobs:
   deploy:
