@@ -3,34 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LOCA YOLK — American–Mexican Breakfast & Lunch</title>
-    <meta
-      name="description"
-      content="Where the border meets breakfast. American diner soul collides with bold Mexican flavor. Coming Spring 2026 to New Jersey."
-    />
-    <meta name="prototype-status" content="concept-demo-only" />
-    <meta name="evident-build" content="loca-yolk-demo-v1" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'"
-    />
+<title>
+  LOCA YOLK — American Breakfast & Mexican-Inspired Lunch
+</title>
 
+<meta
+  name="description"
+  content="Loca Yolk is a modern breakfast and lunch concept inspired by classic American diner culture and the soulful traditions of Mexican family cooking — fresh ingredients, handmade recipes, and warm hospitality served daily."
+/>
+
+<meta
+  name="keywords"
+  content="American breakfast, Mexican-inspired brunch, breakfast restaurant, brunch concept, handmade tortillas, chilaquiles, breakfast burritos, diner-style breakfast, family restaurant"
+/>
+
+<meta
+  name="author"
+  content="Loca Yolk"
+/>
+
+<meta
+  name="theme-color"
+  content="#111111"
+/>
+
+<meta
+  property="og:title"
+  content="LOCA YOLK — American Breakfast & Mexican-Inspired Lunch"
+/>
+
+<meta
+  property="og:description"
+  content="A warm, family-inspired breakfast and lunch concept blending American comfort food with the rich traditions of Mexican home cooking."
+/>
+
+<meta
+  property="og:type"
+  content="website"
+/>
+
+<meta
+  property="og:url"
+  content="https://isolano7.github.io/loca-yolk/"
+/>
+
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+/>
+
+<meta
+  name="prototype-status"
+  content="concept-demo-only"
+/>
+
+<meta
+  name="evident-build"
+  content="loca-yolk-demo-v2"
+/>
+
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' data:;
+    font-src 'self' https://fonts.gstatic.com data:;
+    connect-src 'none';
+    frame-src 'none';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'none'
+  "
+/>
+
+<!-- et:institutional-operational-lineage -->
+  </head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap" />
 
     <style>
-      /*
-     * LOCA YOLK — Client Prototype
-     * Digital experience by Evident Technologies LLC
-     *
-     * Design resources applied:
-     *   - @evident-technologies/sacred: golden-ratio type scale, hexagonal geometry
-     *   - @evident-technologies/design-tokens: spacing grid, elevation system, layer arch.
-     *   - @evident-technologies/creative-engine: glass panels, gradient mesh, motion choreography
-     */
-
-      /* ─── LAYER ARCHITECTURE (@evident-technologies/design-tokens pattern) ─── */
+      /* ── LAYER ARCHITECTURE ────────────────────────────────────── */
       @layer reset, tokens, base, components, utilities;
 
       @layer reset {
@@ -52,22 +107,26 @@
 
       @layer tokens {
         :root {
-          /* ── Layout Architecture: Fixed Header Stack ────────────── */
+          /* ── Layout ───────────────────────────────────────────── */
           --ticker-height: 40px;
           --nav-height: 72px;
-          --total-header-height: calc(var(--ticker-height) + var(--nav-height));
+          /* Single authoritative variable; --total-header-height was a duplicate */
+          --header-offset: calc(var(--ticker-height) + var(--nav-height));
+          --bottom-banner-height: 42px;
+          --content-width: 1280px;
+          --section-padding: clamp(5rem, 8vw, 8rem);
+          --container-padding: clamp(1.25rem, 4vw, 3rem);
 
-          /* ── Z-Index Hierarchy System ────────────────────────────── */
-          /* Prevents future stacking conflicts and layer collisions */
+          /* ── Z-index hierarchy ────────────────────────────────── */
           --z-ticker: 100;
           --z-nav: 200;
           --z-drawer: 500;
           --z-modal: 1000;
           --z-tooltip: 1050;
           --z-toast: 1100;
-          --z-badge: 200; /* Prototype badge level with nav */
+          --z-badge: 200;
 
-          /* ── Brand palette ───────────────────────────────────────── */
+          /* ── Brand palette ────────────────────────────────────── */
           --cream: #f7f1e8;
           --warm-white: #fefcf7;
           --yellow: #ffcb05;
@@ -76,31 +135,31 @@
           --black: #111111;
           --green: #1b5e20;
 
-          /* ── Evident Technologies signature tokens ───────────────── */
+          /* ── Evident Technologies signature tokens ────────────── */
           --et-sapphire: oklch(45% 0.18 255);
           --et-emerald: oklch(50% 0.17 160);
           --et-surface: oklch(14% 0.01 260);
 
-          /* ── Golden ratio (φ = 1.618) spacing — @evident-technologies/sacred ─── */
-          --space-xs: 4px; /* base / φ³  */
-          --space-sm: 8px; /* base / φ   */
-          --space-md: 16px; /* base       */
-          --space-lg: 32px; /* base × φ   */
-          --space-xl: 64px; /* base × φ²  */
-          --space-2xl: 128px; /* base × φ³  */
+          /* ── Spacing (golden ratio base-16) ──────────────────── */
+          --space-xs: 4px;
+          --space-sm: 8px;
+          --space-md: 16px;
+          --space-lg: 32px;
+          --space-xl: 64px;
+          --space-2xl: 128px;
 
-          /* ── Elevation (3-tier max) ──────────────────────────────── */
+          /* ── Elevation ────────────────────────────────────────── */
           --elev-1: 0 1px 3px oklch(0% 0 0 / 0.08);
           --elev-2: 0 4px 12px oklch(0% 0 0 / 0.12);
           --elev-3: 0 12px 40px oklch(0% 0 0 / 0.18);
 
-          /* ── Radius ──────────────────────────────────────────────── */
+          /* ── Radius ───────────────────────────────────────────── */
           --radius-sm: 8px;
           --radius-md: 16px;
           --radius-lg: 24px;
           --radius-full: 999px;
 
-          /* ── Motion ──────────────────────────────────────────────── */
+          /* ── Motion ───────────────────────────────────────────── */
           --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
           --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -143,7 +202,6 @@
         }
       }
 
-      /* ─── REDUCE MOTION — mandatory wrap ───────────────────────────── */
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
@@ -158,39 +216,91 @@
       }
 
       @layer components {
-        /* ═══ TICKER ═══════════════════════════════════════════════════ */
+
+        /* ═══ TICKER ═════════════════════════════════════════════════ */
         .ticker {
-          background: var(--yellow);
-          color: var(--black);
-          padding: var(--space-sm) 0;
+          position: fixed;
+          inset: 0 0 auto 0;
           height: var(--ticker-height);
-          overflow: hidden;
-          white-space: nowrap;
-          font-family: "Bebas Neue", sans-serif;
-          font-size: 0.95rem;
-          letter-spacing: 3px;
-          position: relative;
-          z-index: var(--z-ticker);
-          pointer-events: none;
           display: flex;
           align-items: center;
+          overflow: hidden;
+          background: linear-gradient(90deg, #ffcb05 0%, #ffd84d 50%, #ffcb05 100%);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          z-index: var(--z-ticker);
+          /* Contain so the fixed child doesn't trigger layout in the rest of the doc */
+          contain: layout;
+          isolation: isolate;
+        }
+
+        .ticker-marquee {
+          display: flex;
+          width: max-content;
+          animation: ticker-scroll 42s linear infinite;
+          /* will-change already promotes to a compositing layer; translateZ is redundant */
+          will-change: transform;
         }
 
         .ticker-track {
-          display: inline-block;
-          animation: ticker-scroll 40s linear infinite;
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+
+        .ticker-item {
+          font-family: "Bebas Neue", sans-serif;
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: rgba(17, 17, 17, 0.92);
+          white-space: nowrap;
+          padding-inline: 1rem;
+        }
+
+        .ticker-separator {
+          color: rgba(17, 17, 17, 0.35);
+          font-size: 0.72rem;
+          flex-shrink: 0;
+        }
+
+        .ticker-mask {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 64px;
+          z-index: 2;
+          pointer-events: none;
+        }
+
+        .ticker-mask-left {
+          left: 0;
+          background: linear-gradient(to right, #ffcb05, transparent);
+        }
+
+        .ticker-mask-right {
+          right: 0;
+          background: linear-gradient(to left, #ffcb05, transparent);
         }
 
         @keyframes ticker-scroll {
-          from {
-            transform: translateX(0);
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 640px) {
+          .ticker-item {
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            padding-inline: 0.75rem;
           }
-          to {
-            transform: translateX(-50%);
+
+          .ticker-mask {
+            width: 32px;
           }
         }
 
-        /* ═══ NAV ═══════════════════════════════════════════════════════ */
+        /* ═══ NAV ════════════════════════════════════════════════════ */
         .nav {
           position: fixed;
           top: var(--ticker-height);
@@ -202,6 +312,9 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          backdrop-filter: blur(18px) saturate(140%);
+          -webkit-backdrop-filter: blur(18px) saturate(140%);
           transition:
             background 300ms ease,
             box-shadow 300ms ease;
@@ -250,7 +363,7 @@
           }
         }
 
-        /* ═══ HERO ══════════════════════════════════════════════════════ */
+        /* ═══ HERO ═══════════════════════════════════════════════════ */
         .hero {
           min-height: 100vh;
           position: relative;
@@ -258,29 +371,18 @@
           align-items: center;
           justify-content: center;
           text-align: center;
-          padding-top: calc(var(--total-header-height) + var(--space-xl));
-          padding-bottom: var(--space-2xl);
-          padding-left: var(--space-lg);
-          padding-right: var(--space-lg);
+          padding-block: calc(var(--header-offset) + 5rem) calc(var(--bottom-banner-height) + 5rem);
+          padding-inline: var(--space-lg);
           overflow: hidden;
           isolation: isolate;
         }
 
-        /* Atmospheric layer (local-only, no outbound image request) */
         .hero-photo {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(
-              circle at 20% 25%,
-              rgba(255, 203, 5, 0.22),
-              transparent 45%
-            ),
-            radial-gradient(
-              circle at 78% 35%,
-              rgba(215, 38, 56, 0.2),
-              transparent 50%
-            ),
+            radial-gradient(circle at 20% 25%, rgba(255, 203, 5, 0.22), transparent 45%),
+            radial-gradient(circle at 78% 35%, rgba(215, 38, 56, 0.2), transparent 50%),
             linear-gradient(160deg, #2a1f14 0%, #4a2d1f 45%, #6a3b22 100%);
           transform: scale(1.06);
           transition: transform 10s var(--ease-out);
@@ -291,7 +393,6 @@
           transform: scale(1);
         }
 
-        /* Darkening overlay */
         .hero-overlay {
           position: absolute;
           inset: 0;
@@ -304,13 +405,14 @@
           z-index: -2;
         }
 
-        /* ── Sacred geometry (from @evident-technologies/sacred hex + circle principles) */
         .hero-geometry {
           position: absolute;
           inset: 0;
           z-index: -1;
           pointer-events: none;
           overflow: hidden;
+          /* Keeps animated SVGs from triggering ancestor layout recalcs */
+          contain: layout;
         }
 
         .geo {
@@ -337,12 +439,9 @@
         }
 
         @keyframes geo-spin {
-          to {
-            transform: rotate(360deg);
-          }
+          to { transform: rotate(360deg); }
         }
 
-        /* Hero content */
         .hero-content {
           max-width: 900px;
           color: white;
@@ -351,7 +450,6 @@
         }
 
         .hero h1 {
-          /* φ⁴ scale with fluid clamp */
           font-size: clamp(4.5rem, 12vw, 9.5rem);
           line-height: 0.88;
           color: var(--yellow);
@@ -362,7 +460,7 @@
         }
 
         .hero-tagline {
-          font-size: clamp(1rem, 2.2vw, 1.618rem); /* φ¹ scale */
+          font-size: clamp(1rem, 2.2vw, 1.618rem);
           margin-top: var(--space-lg);
           font-weight: 700;
           text-transform: uppercase;
@@ -437,7 +535,6 @@
           transform: translateY(-2px);
         }
 
-        /* Scroll hint */
         .scroll-hint {
           position: absolute;
           bottom: var(--space-xl);
@@ -463,8 +560,7 @@
         }
 
         @keyframes chevron-pulse {
-          0%,
-          100% {
+          0%, 100% {
             opacity: 0.4;
             transform: rotate(45deg) translateY(0);
           }
@@ -474,7 +570,7 @@
           }
         }
 
-        /* ═══ REVEAL ANIMATION ══════════════════════════════════════════ */
+        /* ═══ REVEAL ANIMATION ═══════════════════════════════════════ */
         .reveal {
           opacity: 0;
           transform: translateY(28px);
@@ -488,9 +584,12 @@
           transform: translateY(0);
         }
 
-        /* ═══ SECTION WRAPPER ═══════════════════════════════════════════ */
+        /* ═══ SECTION WRAPPER ════════════════════════════════════════ */
         .section {
-          padding: var(--space-2xl) 8vw;
+          position: relative;
+          width: min(100%, var(--content-width));
+          margin-inline: auto;
+          padding: var(--section-padding) var(--container-padding);
         }
 
         .eyebrow {
@@ -503,7 +602,7 @@
           display: block;
         }
 
-        /* ═══ ABOUT ═════════════════════════════════════════════════════ */
+        /* ═══ ABOUT ══════════════════════════════════════════════════ */
         .about {
           background: var(--warm-white);
           display: grid;
@@ -539,7 +638,6 @@
           margin-top: var(--space-lg);
         }
 
-        /* Stat cards */
         .stats {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -586,7 +684,7 @@
           margin-top: var(--space-sm);
         }
 
-        /* ═══ MENU ══════════════════════════════════════════════════════ */
+        /* ═══ MENU ═══════════════════════════════════════════════════ */
         .menu {
           background: var(--black);
           color: white;
@@ -596,34 +694,23 @@
           isolation: isolate;
         }
 
-        /* Subtle mesh gradient backdrop — @evident-technologies/creative-engine mesh pattern */
         .menu-mesh {
           position: absolute;
           inset: -50%;
           background:
-            radial-gradient(
-              circle at 20% 30%,
-              oklch(30% 0.18 20 / 0.25),
-              transparent 45%
-            ),
-            radial-gradient(
-              circle at 80% 70%,
-              oklch(35% 0.15 60 / 0.18),
-              transparent 45%
-            );
+            radial-gradient(circle at 20% 30%, oklch(30% 0.18 20 / 0.25), transparent 45%),
+            radial-gradient(circle at 80% 70%, oklch(35% 0.15 60 / 0.18), transparent 45%);
           filter: blur(80px);
           pointer-events: none;
           z-index: -1;
+          /* Prevents the blur/animation from causing layout recalcs in ancestors */
+          contain: layout;
           animation: mesh-drift 25s ease-in-out infinite alternate;
         }
 
         @keyframes mesh-drift {
-          from {
-            transform: translate(0, 0) rotate(0deg);
-          }
-          to {
-            transform: translate(4%, -3%) rotate(2deg);
-          }
+          from { transform: translate(0, 0) rotate(0deg); }
+          to   { transform: translate(4%, -3%) rotate(2deg); }
         }
 
         .menu-heading {
@@ -642,7 +729,7 @@
 
         .menu-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: var(--space-lg);
           margin-top: var(--space-xl);
           text-align: left;
@@ -656,12 +743,12 @@
           position: relative;
           overflow: hidden;
           transition:
-            transform 300ms var(--spring),
-            background 250ms ease,
-            box-shadow 300ms ease;
+            transform 220ms ease,
+            background-color 220ms ease,
+            border-color 220ms ease,
+            box-shadow 220ms ease;
         }
 
-        /* Top accent bar reveals on hover */
         .menu-card::before {
           content: "";
           position: absolute;
@@ -724,13 +811,9 @@
           font-size: 0.85rem;
         }
 
-        /* ═══ WEEKLY SPECIALS ═══════════════════════════════════════════ */
+        /* ═══ WEEKLY SPECIALS ════════════════════════════════════════ */
         .weekly {
-          background: linear-gradient(
-            135deg,
-            var(--red) 0%,
-            var(--orange) 100%
-          );
+          background: linear-gradient(135deg, var(--red) 0%, var(--orange) 100%);
           color: white;
           text-align: center;
           position: relative;
@@ -738,12 +821,13 @@
           isolation: isolate;
         }
 
-        /* Sacred geometry overlay on weekly section */
         .weekly-geo {
           position: absolute;
           opacity: 0.055;
           pointer-events: none;
           z-index: 0;
+          /* Contain spinning SVGs to avoid layout thrash */
+          contain: layout;
         }
 
         .weekly-geo-1 {
@@ -786,7 +870,6 @@
           margin-top: var(--space-xl);
         }
 
-        /* Glass panel — @evident-technologies/creative-engine glass system */
         .day {
           background: color-mix(in oklch, white 14%, transparent);
           backdrop-filter: blur(14px) saturate(1.3);
@@ -823,7 +906,7 @@
           line-height: 1.1;
         }
 
-        /* ═══ HOURS ═════════════════════════════════════════════════════ */
+        /* ═══ HOURS ══════════════════════════════════════════════════ */
         .hours {
           background: var(--warm-white);
           display: grid;
@@ -852,6 +935,7 @@
         .hours-table tr {
           border-bottom: 1px solid rgba(0, 0, 0, 0.07);
         }
+
         .hours-table tr:last-child {
           border-bottom: none;
         }
@@ -881,12 +965,47 @@
           }
 
           .hero {
-            padding: var(--space-xl) var(--space-md);
+            padding-inline: var(--space-md);
           }
 
           .prototype-badge {
             right: var(--space-md);
             bottom: var(--space-md);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero h1 {
+            line-height: 0.94;
+            letter-spacing: 2px;
+          }
+
+          .hero-tagline {
+            letter-spacing: 2px;
+          }
+
+          .prototype-badge,
+          .scroll-hint {
+            display: none;
+          }
+
+          .days {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .menu-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .cta-row {
+            flex-direction: column;
+          }
+
+          .btn {
+            width: 100%;
+            justify-content: center;
           }
         }
 
@@ -925,8 +1044,13 @@
           margin-top: var(--space-lg);
         }
 
-        /* ═══ ONLINE ORDER BANNER ═══════════════════════════════════════ */
+        /* ═══ ONLINE ORDER BANNER ════════════════════════════════════ */
         .order-banner {
+          min-height: var(--bottom-banner-height);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(12px);
           background: linear-gradient(135deg, #1b5e20, #2e7d32);
           color: white;
           text-align: center;
@@ -938,34 +1062,26 @@
           border: none;
         }
 
-        /* ═══ FOOTER ════════════════════════════════════════════════════ */
+        /* ═══ FOOTER ═════════════════════════════════════════════════ */
         .footer {
           background: var(--black);
           color: white;
           text-align: center;
           padding: var(--space-2xl) var(--space-lg);
+          padding-bottom: calc(var(--bottom-banner-height) + 5rem);
           position: relative;
           overflow: hidden;
           isolation: isolate;
         }
 
-        /* Subtle footer mesh */
         .footer-mesh {
           position: absolute;
           inset: 0;
           pointer-events: none;
           z-index: -1;
           background:
-            radial-gradient(
-              circle at 20% 80%,
-              oklch(25% 0.08 255 / 0.35),
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 80% 20%,
-              oklch(25% 0.07 165 / 0.25),
-              transparent 50%
-            );
+            radial-gradient(circle at 20% 80%, oklch(25% 0.08 255 / 0.35), transparent 50%),
+            radial-gradient(circle at 80% 20%, oklch(25% 0.07 165 / 0.25), transparent 50%);
         }
 
         .footer-wordmark {
@@ -1027,11 +1143,7 @@
           line-height: 1.8;
         }
 
-        /* ═══ EVIDENT TECHNOLOGIES WATERMARK ═══════════════════════════ */
-        /*
-       * Applied to mark this work as an Evident Technologies LLC digital
-       * experience — presented here as a prototype for client review.
-       */
+        /* ═══ EVIDENT TECHNOLOGIES WATERMARK ════════════════════════ */
         .et-watermark {
           margin-top: var(--space-2xl);
           padding-top: var(--space-xl);
@@ -1071,7 +1183,7 @@
           font-family: "Inter", sans-serif;
         }
 
-        /* Prototype corner badge */
+        /* ═══ PROTOTYPE BADGE ════════════════════════════════════════ */
         .prototype-badge {
           position: fixed;
           bottom: var(--space-lg);
@@ -1094,24 +1206,13 @@
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: linear-gradient(
-            135deg,
-            var(--et-sapphire),
-            var(--et-emerald)
-          );
+          background: linear-gradient(135deg, var(--et-sapphire), var(--et-emerald));
           animation: dot-pulse 2.5s ease-in-out infinite;
         }
 
         @keyframes dot-pulse {
-          0%,
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.5;
-            transform: scale(0.7);
-          }
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.5; transform: scale(0.7); }
         }
 
         .prototype-badge-text {
@@ -1129,26 +1230,76 @@
           color: rgba(255, 255, 255, 0.75);
           letter-spacing: 1px;
         }
+
       } /* end @layer components */
     </style>
   </head>
 
   <body>
+
     <!-- ── TICKER ──────────────────────────────────────────────────── -->
     <div class="ticker" aria-hidden="true">
-      <span class="ticker-track" aria-hidden="true">
-        HUEVOS RANCHEROS &nbsp;•&nbsp; CHORIZO SUNRISE &nbsp;•&nbsp; MIGAS
-        MAGNIFICAS &nbsp;•&nbsp; THE JALAPEÑO QUEEN &nbsp;•&nbsp; DESPERADO
-        BURRITO &nbsp;•&nbsp; BORDER PATROL CHILAQUILES &nbsp;•&nbsp; MOLE
-        MONDAY &nbsp;•&nbsp; TACO TUESDAY &nbsp;•&nbsp; BIRRIA HUMP DAY
-        &nbsp;•&nbsp; POZOLE THURSDAY &nbsp;•&nbsp; SEAFOOD FRIDAY &nbsp;•&nbsp;
-        BRUNCH LOCO &nbsp;•&nbsp; HUEVOS RANCHEROS &nbsp;•&nbsp; CHORIZO SUNRISE
-        &nbsp;•&nbsp; MIGAS MAGNIFICAS &nbsp;•&nbsp; THE JALAPEÑO QUEEN
-        &nbsp;•&nbsp; DESPERADO BURRITO &nbsp;•&nbsp; BORDER PATROL CHILAQUILES
-        &nbsp;•&nbsp; MOLE MONDAY &nbsp;•&nbsp; TACO TUESDAY &nbsp;•&nbsp;
-        BIRRIA HUMP DAY &nbsp;•&nbsp; POZOLE THURSDAY &nbsp;•&nbsp; SEAFOOD
-        FRIDAY &nbsp;•&nbsp; BRUNCH LOCO &nbsp;•&nbsp;
-      </span>
+      <div class="ticker-mask ticker-mask-left"></div>
+      <div class="ticker-mask ticker-mask-right"></div>
+
+      <div class="ticker-marquee">
+
+        <div class="ticker-track">
+          <span class="ticker-item">Huevos Rancheros</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Chorizo Sunrise</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Migas Magnificas</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Family Recipes</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Breakfast Burritos</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Homemade Chilaquiles</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Mole Monday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Taco Tuesday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Birria Wednesday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Pozole Thursday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Seafood Friday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Weekend Brunch</span>
+          <span class="ticker-separator">•</span>
+        </div>
+
+        <!-- duplicated track for seamless infinite loop -->
+        <div class="ticker-track" aria-hidden="true">
+          <span class="ticker-item">Huevos Rancheros</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Chorizo Sunrise</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Migas Magnificas</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Family Recipes</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Breakfast Burritos</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Homemade Chilaquiles</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Mole Monday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Taco Tuesday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Birria Wednesday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Pozole Thursday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Seafood Friday</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Weekend Brunch</span>
+          <span class="ticker-separator">•</span>
+        </div>
+
+      </div>
     </div>
 
     <!-- ── NAV ────────────────────────────────────────────────────── -->
@@ -1169,7 +1320,6 @@
       <div class="hero-photo" id="hero-photo" aria-hidden="true"></div>
       <div class="hero-overlay" aria-hidden="true"></div>
 
-      <!-- Sacred geometry — hexagonal + circular forms from @evident-technologies/sacred -->
       <div class="hero-geometry" aria-hidden="true">
         <svg
           class="geo geo-1"
@@ -1177,25 +1327,16 @@
           xmlns="http://www.w3.org/2000/svg"
           role="presentation"
         >
-          <polygon
-            points="200,18 374,109 374,291 200,382 26,291 26,109"
-            stroke-width="1"
-          />
-          <polygon
-            points="200,58 344,131 344,269 200,342 56,269 56,131"
-            stroke-width="0.7"
-          />
-          <polygon
-            points="200,98 314,153 314,247 200,302 86,247 86,153"
-            stroke-width="0.5"
-          />
+          <polygon points="200,18 374,109 374,291 200,382 26,291 26,109" stroke-width="1" />
+          <polygon points="200,58 344,131 344,269 200,342 56,269 56,131" stroke-width="0.7" />
+          <polygon points="200,98 314,153 314,247 200,302 86,247 86,153" stroke-width="0.5" />
           <circle cx="200" cy="200" r="148" stroke-width="0.5" />
           <circle cx="200" cy="200" r="108" stroke-width="0.4" />
-          <circle cx="200" cy="200" r="68" stroke-width="0.4" />
-          <circle cx="200" cy="200" r="28" stroke-width="0.5" />
-          <line x1="200" y1="18" x2="200" y2="382" stroke-width="0.25" />
-          <line x1="26" y1="109" x2="374" y2="291" stroke-width="0.25" />
-          <line x1="26" y1="291" x2="374" y2="109" stroke-width="0.25" />
+          <circle cx="200" cy="200" r="68"  stroke-width="0.4" />
+          <circle cx="200" cy="200" r="28"  stroke-width="0.5" />
+          <line x1="200" y1="18"  x2="200" y2="382" stroke-width="0.25" />
+          <line x1="26"  y1="109" x2="374" y2="291" stroke-width="0.25" />
+          <line x1="26"  y1="291" x2="374" y2="109" stroke-width="0.25" />
         </svg>
         <svg
           class="geo geo-2"
@@ -1203,40 +1344,38 @@
           xmlns="http://www.w3.org/2000/svg"
           role="presentation"
         >
-          <polygon points="200,12 388,200 200,388 12,200" stroke-width="1" />
-          <polygon points="200,64 336,200 200,336 64,200" stroke-width="0.7" />
-          <polygon
-            points="200,116 284,200 200,284 116,200"
-            stroke-width="0.5"
-          />
+          <polygon points="200,12 388,200 200,388 12,200"   stroke-width="1" />
+          <polygon points="200,64 336,200 200,336 64,200"   stroke-width="0.7" />
+          <polygon points="200,116 284,200 200,284 116,200" stroke-width="0.5" />
           <circle cx="200" cy="200" r="136" stroke-width="0.5" />
-          <circle cx="200" cy="200" r="96" stroke-width="0.4" />
-          <circle cx="200" cy="200" r="50" stroke-width="0.4" />
+          <circle cx="200" cy="200" r="96"  stroke-width="0.4" />
+          <circle cx="200" cy="200" r="50"  stroke-width="0.4" />
         </svg>
       </div>
 
+      <!-- All hero content, including CTAs, lives inside .hero-content -->
       <div class="hero-content">
         <h1 id="hero-h1">LOCA YOLK</h1>
-        <p class="hero-tagline">Where the Border Meets Breakfast</p>
-        <p class="hero-subcopy">
-          American diner soul collides with bold Mexican flavor. Fresh
-          tortillas. Slow-cooked salsa. Local eggs. Enough chile heat to wake
-          the dead.
+
+        <p class="hero-tagline">
+          Crafted with Care. Served with Love.
         </p>
+
+        <p class="hero-subcopy">
+          Bringing together American breakfast comfort and the soulful traditions of
+          Mexican family cooking, Loca Yolk is a warm, welcoming kitchen built around
+          fresh food, good mornings, and the people who make every table feel like home.
+        </p>
+
         <div class="cta-row">
-          <a
-            href="#menu"
-            class="btn btn-primary"
-            aria-describedby="demo-interface-note"
-            >Preview Menu Section</a
-          >
-          <a
-            href="#hours"
-            class="btn btn-secondary"
-            aria-describedby="demo-interface-note"
-            >Explore Concept Timeline</a
-          >
+          <a href="#menu" class="btn btn-primary" aria-describedby="demo-interface-note">
+            Preview Menu Section
+          </a>
+          <a href="#hours" class="btn btn-secondary" aria-describedby="demo-interface-note">
+            Explore Concept Timeline
+          </a>
         </div>
+
         <p class="cta-context-note" id="demo-interface-note">
           Demo Interface · Concept Navigation Only
         </p>
@@ -1249,64 +1388,69 @@
     </section>
 
     <!-- ── ABOUT ──────────────────────────────────────────────────── -->
-    <section class="section about" id="about" aria-labelledby="about-h2">
-      <div class="reveal">
-        <span class="eyebrow">Our Story</span>
-        <h2 id="about-h2" class="about-heading">
-          BORN ON THE BORDER.<br />
-          <span class="accent">RAISED ON THE RANCH.</span>
-        </h2>
-      </div>
+   <section class="section about" id="about" aria-labelledby="ly-about-title">
+  <div class="reveal">
+    <span class="eyebrow">Our Story</span>
 
-      <div class="reveal" style="transition-delay: 120ms">
-        <div class="about-body">
-          <p>
-            LOCA YOLK is the wildly delicious collision of American breakfast
-            culture and the soulful flavors of Mexico — slow-cooked salsas,
-            hand-pressed tortillas, local eggs, and enough chile heat to wake
-            the dead.
-          </p>
-          <p>
-            We open at sunrise and close when the last plate is licked clean.
-            Every dish tells a story. Every bite is a border crossing.
-          </p>
-        </div>
+```
+<h2 id="ly-about-title" class="about-heading">
+  MADE WITH CARE.<br />
+  <span class="accent">SERVED WITH LOVE.</span>
+</h2>
+```
 
-        <div class="stats">
-          <div class="stat reveal" style="transition-delay: 200ms">
-            <div class="stat-value">23</div>
-            <div class="stat-label">Menu Items</div>
-          </div>
-          <div class="stat reveal" style="transition-delay: 280ms">
-            <div class="stat-value">7AM</div>
-            <div class="stat-label">Opens Daily</div>
-          </div>
-          <div class="stat reveal" style="transition-delay: 360ms">
-            <div class="stat-value">100%</div>
-            <div class="stat-label">Fresh Tortillas</div>
-          </div>
-          <div class="stat reveal" style="transition-delay: 440ms">
-            <div
-              class="stat-value"
-              aria-label="Max heat — three chilies"
-              style="font-size: 2rem"
-            >
-              🌶🌶🌶
-            </div>
-            <div class="stat-label">Max Heat Level</div>
-          </div>
-        </div>
-      </div>
-    </section>
+  </div>
+
+  <div class="reveal" style="transition-delay: 120ms">
+    <div class="about-body">
+      <p>
+        Loca Yolk brings together the comfort of classic American breakfast
+        culture and the rich traditions of Mexican family cooking — handmade
+        tortillas, slow-simmered salsas, fresh ingredients, and recipes inspired
+        by generations of hardworking kitchens and shared meals.
+      </p>
+
+```
+  <p>
+    We open early, cook with care, and serve every guest like family. From
+    warm coffee to fresh breakfast plates, every dish is rooted in
+    hospitality, tradition, and the kind of food that brings people together
+    around the table.
+  </p>
+</div>
+
+<div class="stats">
+  <div class="stat reveal" style="transition-delay: 200ms">
+    <div class="stat-value">23</div>
+    <div class="stat-label">Signature Plates</div>
+  </div>
+
+  <div class="stat reveal" style="transition-delay: 280ms">
+    <div class="stat-value">7AM</div>
+    <div class="stat-label">Fresh Each Morning</div>
+  </div>
+
+  <div class="stat reveal" style="transition-delay: 360ms">
+    <div class="stat-value">100%</div>
+    <div class="stat-label">Handmade Tortillas</div>
+  </div>
+
+  <div class="stat reveal" style="transition-delay: 440ms">
+    <div class="stat-value">❤</div>
+    <div class="stat-label">Family Inspired</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
 
     <!-- ── MENU ───────────────────────────────────────────────────── -->
     <section class="section menu" id="menu" aria-labelledby="menu-h2">
       <div class="menu-mesh" aria-hidden="true"></div>
 
       <div class="reveal">
-        <span class="eyebrow" style="color: rgba(255, 203, 5, 0.55)"
-          >— The Menu —</span
-        >
+        <span class="eyebrow" style="color: rgba(255, 203, 5, 0.55)">— The Menu —</span>
         <h2 class="menu-heading" id="menu-h2">WHAT'S COOKIN'</h2>
         <p class="menu-sub">Signature plates &nbsp;•&nbsp; Made fresh daily</p>
       </div>
@@ -1315,40 +1459,27 @@
         <article class="menu-card reveal" style="transition-delay: 80ms">
           <span class="menu-emoji" aria-hidden="true">🍳</span>
           <h3>Huevos Rancheros</h3>
-          <p>
-            Ranch-style eggs over crispy tortillas, smothered in house red salsa
-            and crowned with queso fresco.
-          </p>
+          <p>Ranch-style eggs over crispy tortillas, smothered in house red salsa and crowned with queso fresco.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Two chili heat level"
-              >🌶🌶</span
-            >
+            <span class="menu-heat" aria-label="Two chili heat level">🌶🌶</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 160ms">
           <span class="menu-emoji" aria-hidden="true">🌯</span>
           <h3>Desperado Burrito</h3>
-          <p>
-            A breakfast outlaw stuffed with spiced chorizo, scrambled eggs,
-            roasted peppers, and contraband salsa verde.
-          </p>
+          <p>A breakfast outlaw stuffed with spiced chorizo, scrambled eggs, roasted peppers, and contraband salsa verde.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Three chili heat level"
-              >🌶🌶🌶</span
-            >
+            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 240ms">
           <span class="menu-emoji" aria-hidden="true">🥚</span>
           <h3>Migas Magnificas</h3>
-          <p>
-            Crunchy tortilla strips, scrambled eggs, melted cheese, roasted
-            chiles, and the beautiful chaos that follows.
-          </p>
+          <p>Crunchy tortilla strips, scrambled eggs, melted cheese, roasted chiles, and the beautiful chaos that follows.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-heat" aria-label="One chili heat level">🌶</span>
@@ -1358,45 +1489,30 @@
         <article class="menu-card reveal" style="transition-delay: 320ms">
           <span class="menu-emoji" aria-hidden="true">🌮</span>
           <h3>Border Patrol Chilaquiles</h3>
-          <p>
-            Red sauce. Crispy chips. Crema. Cotija. Absolute destruction. You
-            won't want anything else.
-          </p>
+          <p>Red sauce. Crispy chips. Crema. Cotija. Absolute destruction. You won't want anything else.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Three chili heat level"
-              >🌶🌶🌶</span
-            >
+            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 400ms">
           <span class="menu-emoji" aria-hidden="true">☀️</span>
           <h3>Chorizo Sunrise</h3>
-          <p>
-            Spiced Mexican chorizo, sunny-side up eggs, sliced avocado, and warm
-            hand-pressed tortillas.
-          </p>
+          <p>Spiced Mexican chorizo, sunny-side up eggs, sliced avocado, and warm hand-pressed tortillas.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Two chili heat level"
-              >🌶🌶</span
-            >
+            <span class="menu-heat" aria-label="Two chili heat level">🌶🌶</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 480ms">
           <span class="menu-emoji" aria-hidden="true">👑</span>
           <h3>The Jalapeño Queen</h3>
-          <p>
-            Jalapeño hash, eggs your way, pickled pepper crown. Not for the
-            faint of heart. You've been warned.
-          </p>
+          <p>Jalapeño hash, eggs your way, pickled pepper crown. Not for the faint of heart. You've been warned.</p>
           <div class="menu-meta">
             <span class="menu-category">Lunch</span>
-            <span class="menu-heat" aria-label="Three chili heat level"
-              >🌶🌶🌶</span
-            >
+            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
           </div>
         </article>
       </div>
@@ -1404,7 +1520,6 @@
 
     <!-- ── WEEKLY SPECIALS ────────────────────────────────────────── -->
     <section class="section weekly" id="specials" aria-labelledby="weekly-h2">
-      <!-- Sacred geometry overlay -->
       <svg
         class="weekly-geo weekly-geo-1"
         viewBox="0 0 400 400"
@@ -1412,16 +1527,8 @@
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <polygon
-          points="200,18 374,109 374,291 200,382 26,291 26,109"
-          stroke="white"
-          stroke-width="1"
-        />
-        <polygon
-          points="200,78 314,139 314,261 200,322 86,261 86,139"
-          stroke="white"
-          stroke-width="0.7"
-        />
+        <polygon points="200,18 374,109 374,291 200,382 26,291 26,109" stroke="white" stroke-width="1" />
+        <polygon points="200,78 314,139 314,261 200,322 86,261 86,139" stroke="white" stroke-width="0.7" />
         <circle cx="200" cy="200" r="150" stroke="white" stroke-width="0.6" />
         <circle cx="200" cy="200" r="100" stroke="white" stroke-width="0.5" />
       </svg>
@@ -1432,55 +1539,25 @@
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <polygon
-          points="200,12 388,200 200,388 12,200"
-          stroke="white"
-          stroke-width="1"
-        />
-        <polygon
-          points="200,80 320,200 200,320 80,200"
-          stroke="white"
-          stroke-width="0.7"
-        />
+        <polygon points="200,12 388,200 200,388 12,200"  stroke="white" stroke-width="1" />
+        <polygon points="200,80 320,200 200,320 80,200"  stroke="white" stroke-width="0.7" />
         <circle cx="200" cy="200" r="130" stroke="white" stroke-width="0.5" />
       </svg>
 
       <div class="weekly-inner">
         <div class="reveal">
-          <span class="eyebrow" style="color: rgba(255, 255, 255, 0.5)"
-            >— Limited Time —</span
-          >
+          <span class="eyebrow" style="color: rgba(255, 255, 255, 0.5)">— Limited Time —</span>
           <h2 class="weekly-heading" id="weekly-h2">WEEKLY SPECIALS</h2>
-          <p class="weekly-sub">
-            Every day has its own flavor. Come back hungry.
-          </p>
+          <p class="weekly-sub">Every day has its own flavor. Come back hungry.</p>
         </div>
 
         <div class="days">
-          <div class="day reveal" style="transition-delay: 80ms">
-            <span class="day-label">Monday</span>
-            <span class="day-name">Mole Monday</span>
-          </div>
-          <div class="day reveal" style="transition-delay: 150ms">
-            <span class="day-label">Tuesday</span>
-            <span class="day-name">Taco Tuesday</span>
-          </div>
-          <div class="day reveal" style="transition-delay: 220ms">
-            <span class="day-label">Wednesday</span>
-            <span class="day-name">Birria Hump Day</span>
-          </div>
-          <div class="day reveal" style="transition-delay: 290ms">
-            <span class="day-label">Thursday</span>
-            <span class="day-name">Pozole Thursday</span>
-          </div>
-          <div class="day reveal" style="transition-delay: 360ms">
-            <span class="day-label">Friday</span>
-            <span class="day-name">Seafood Friday</span>
-          </div>
-          <div class="day reveal" style="transition-delay: 430ms">
-            <span class="day-label">Sat / Sun</span>
-            <span class="day-name">Brunch Loco 🎉</span>
-          </div>
+          <div class="day reveal" style="transition-delay:  80ms"><span class="day-label">Monday</span>   <span class="day-name">Mole Monday</span></div>
+          <div class="day reveal" style="transition-delay: 150ms"><span class="day-label">Tuesday</span>  <span class="day-name">Taco Tuesday</span></div>
+          <div class="day reveal" style="transition-delay: 220ms"><span class="day-label">Wednesday</span><span class="day-name">Birria Hump Day</span></div>
+          <div class="day reveal" style="transition-delay: 290ms"><span class="day-label">Thursday</span> <span class="day-name">Pozole Thursday</span></div>
+          <div class="day reveal" style="transition-delay: 360ms"><span class="day-label">Friday</span>   <span class="day-name">Seafood Friday</span></div>
+          <div class="day reveal" style="transition-delay: 430ms"><span class="day-label">Sat / Sun</span><span class="day-name">Brunch Loco 🎉</span></div>
         </div>
       </div>
     </section>
@@ -1492,18 +1569,9 @@
         <h2 id="hours-h2" class="hours-heading">HOURS &amp;<br />LOCATION</h2>
         <table class="hours-table" aria-label="Business hours">
           <tbody>
-            <tr>
-              <td>Mon – Fri</td>
-              <td>7:00 AM – 3:00 PM</td>
-            </tr>
-            <tr>
-              <td>Saturday</td>
-              <td>8:00 AM – 4:00 PM</td>
-            </tr>
-            <tr>
-              <td>Sunday</td>
-              <td>9:00 AM – 3:00 PM</td>
-            </tr>
+            <tr><td>Mon – Fri</td><td>7:00 AM – 3:00 PM</td></tr>
+            <tr><td>Saturday</td><td>8:00 AM – 4:00 PM</td></tr>
+            <tr><td>Sunday</td>  <td>9:00 AM – 3:00 PM</td></tr>
           </tbody>
         </table>
       </div>
@@ -1516,17 +1584,9 @@
             where the vibes are right<br />
             and the coffee is strong.
           </p>
-          <p
-            style="
-              margin-top: 1rem;
-              font-size: 0.88rem;
-              color: #999;
-              line-height: 1.7;
-            "
-          >
+          <p style="margin-top: 1rem; font-size: 0.88rem; color: #999; line-height: 1.7;">
             Exact location announced Spring 2026.<br />
-            Follow <strong style="color: #555">@locayolk</strong> for the
-            reveal.
+            Follow <strong style="color: #555">@locayolk</strong> for the reveal.
           </p>
           <div class="location-badge">📍 Coming Spring 2026</div>
         </div>
@@ -1534,11 +1594,7 @@
     </section>
 
     <!-- ── ONLINE ORDER BANNER ────────────────────────────────────── -->
-    <div
-      class="order-banner"
-      role="complementary"
-      aria-label="Ordering concept notice"
-    >
+    <div class="order-banner" role="complementary" aria-label="Ordering concept notice">
       🌐 &nbsp; Ordering preview only · no live transactions &nbsp;•&nbsp;
       Follow @locayolk for updates &nbsp; 🌐
     </div>
@@ -1566,8 +1622,7 @@
       <hr class="footer-rule" aria-hidden="true" />
 
       <p class="footer-copy">
-        © 2026 Loca Yolk LLC &nbsp;•&nbsp; New Jersey &nbsp;•&nbsp; All eggs
-        broken with love
+        © 2026 Loca Yolk LLC &nbsp;•&nbsp; New Jersey &nbsp;•&nbsp; All eggs broken with love
       </p>
 
       <p class="footer-prototype-notice">
@@ -1575,14 +1630,9 @@
         Demo experience — not production ordering infrastructure
       </p>
 
-      <!-- ── EVIDENT TECHNOLOGIES LLC WATERMARK ────────────────────── -->
-      <div
-        class="et-watermark"
-        aria-label="Digital experience by Evident Technologies LLC"
-      >
+      <div class="et-watermark" aria-label="Digital experience by Evident Technologies LLC">
         <span class="et-watermark-eyebrow">Digital experience designed by</span>
         <div class="et-watermark-lockup">
-          <!-- ET geometric mark — hexagonal sacred geometry logo -->
           <svg
             width="20"
             height="20"
@@ -1591,18 +1641,8 @@
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
           >
-            <polygon
-              points="20,2 38,11 38,29 20,38 2,29 2,11"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-            />
-            <polygon
-              points="20,10 30,15.5 30,24.5 20,30 10,24.5 10,15.5"
-              stroke="currentColor"
-              stroke-width="1"
-              fill="none"
-            />
+            <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" stroke="currentColor" stroke-width="1.5" fill="none" />
+            <polygon points="20,10 30,15.5 30,24.5 20,30 10,24.5 10,15.5" stroke="currentColor" stroke-width="1" fill="none" />
             <circle cx="20" cy="20" r="4" fill="currentColor" opacity="0.55" />
           </svg>
           <span class="et-wordmark">Evident Technologies LLC</span>
@@ -1619,6 +1659,43 @@
       </div>
     </aside>
 
-    <script src="scripts/app.js"></script>
+    <!--
+      Inlined from scripts/app.js — type="module" defers execution automatically
+      and scopes variables, replacing the need for an IIFE.
+    -->
+    <script type="module">
+      const nav = document.getElementById('main-nav');
+
+      // Throttle scroll handler via rAF to avoid layout thrash
+      let rafPending = false;
+      window.addEventListener('scroll', () => {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 10);
+          rafPending = false;
+        });
+      }, { passive: true });
+
+      // Reveal elements as they enter the viewport
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(({ target, isIntersecting }) => {
+            if (isIntersecting) {
+              target.classList.add('visible');
+              revealObserver.unobserve(target); // fire once, then release
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // Trigger hero Ken Burns effect on next paint (it's a CSS gradient, no img to await)
+      requestAnimationFrame(() => {
+        document.getElementById('hero-photo')?.classList.add('loaded');
+      });
+    </script>
+
   </body>
 </html>
