@@ -1,79 +1,158 @@
 # Loca Yolk
 
-American-Mexican Breakfast & Lunch — demo prototype
+American Breakfast. Mexican Heart.
 
-**Live site:** https://loca-yolk.evidtech.com
-**Built by:** [Evident Technologies LLC](https://evident.icu)
-
----
-
-## About This Repository
-
-This repository contains the prototype website for Loca Yolk. It deploys automatically to GitHub Pages when changes are pushed to the `main` branch.
-
-**Repository owner:** @ISolano7
-**Infrastructure:** Managed by Evident Technologies LLC (@DevonTyler)
+Loca Yolk is a modern breakfast and lunch concept inspired by the warmth of classic American diners and the soulful traditions of Mexican family cooking — fresh ingredients, handmade recipes, and hospitality rooted in community, culture, and care.
 
 ---
 
-## Viewing the Site Locally
+## Live Site
 
-No build tools required. To preview locally:
+🌐 https://isolano7.github.io/loca-yolk/
+
+---
+
+## Repository
+
+GitHub Repository:
+https://github.com/ISolano7/loca-yolk
+
+Repository Owner:
+@ISolano7
+
+---
+
+## About This Project
+
+This repository contains the official static website prototype for Loca Yolk.
+
+The site is designed as a lightweight, deployment-friendly experience built with:
+
+* semantic HTML
+* modern CSS
+* accessibility-conscious structure
+* responsive layout systems
+* GitHub Pages deployment
+
+No frontend frameworks or build tooling are required.
+
+The project focuses on:
+
+* clean visual rhythm
+* mobile-first responsiveness
+* refined typography
+* calm motion design
+* and warm family-oriented branding.
+
+---
+
+## Local Development
+
+Clone the repository:
 
 ```bash
-# Option 1 — npx serve (recommended)
+git clone https://github.com/ISolano7/loca-yolk.git
+cd loca-yolk
+```
+
+Run locally using any simple static server.
+
+### Option 1 — npx serve
+
+```bash
 npx serve .
+```
 
-# Option 2 — Python (if installed)
+### Option 2 — Python HTTP Server
+
+```bash
 python3 -m http.server 8080
+```
 
-# Then open: http://localhost:3000 (serve) or http://localhost:8080 (python)
+Then open:
+
+* http://localhost:3000
+* or
+* http://localhost:8080
+
+depending on which server you use.
+
+---
+
+## Deployment
+
+The site deploys automatically through GitHub Pages when updates are pushed to the `main` branch.
+
+Deployment flow:
+
+1. Commit changes
+2. Push to `main`
+3. GitHub Actions deploys the updated site
+4. Changes go live automatically
+
+Live deployment URL:
+
+https://isolano7.github.io/loca-yolk/
+
+---
+
+## Project Structure
+
+```text
+loca-yolk/
+├── index.html
+├── README.md
+├── assets/
+├── .github/
+└── scripts/
 ```
 
 ---
 
-## How Deployments Work
+## Design Direction
 
-1. Push a change to the `main` branch (or open a pull request and merge it).
-2. GitHub Actions automatically runs the deployment workflow.
-3. The governance guard runs first — it checks that the prototype stays within approved boundaries.
-4. If the guard passes, the site is deployed to GitHub Pages.
-5. Your changes are live at https://loca-yolk.evidtech.com within 1–3 minutes.
+The Loca Yolk brand is built around:
 
-You can monitor deployments at: **Actions** tab → **Deploy Prototype**
+* welcoming hospitality
+* American breakfast traditions
+* Mexican culinary heritage
+* handcrafted presentation
+* family-centered warmth
+* and refined neighborhood brunch culture.
 
----
+The experience intentionally avoids:
 
-## How to Request Changes
+* gimmick-heavy restaurant branding
+* excessive animation
+* aggressive “spicy food” stereotypes
+* or trend-driven startup aesthetics.
 
-Open a pull request:
-
-1. Create a new branch from `main`.
-2. Make your changes to `index.html`.
-3. Open a pull request targeting `main`.
-4. Request review from @DevonTyler.
-
-Alternatively, contact devon@evident.icu to discuss changes.
+The goal is a timeless, warm, and approachable dining identity.
 
 ---
 
-## Governance
+## Accessibility & Performance
 
-This prototype is governed by the [Prototype Boundary Policy](.github/governance/PROTOTYPE_BOUNDARY_POLICY.md). The automated governance guard (`scripts/boundary-check.mjs`) runs before every deployment and will block any deploy that introduces prohibited surfaces (analytics, form submissions, network requests, etc.).
+The site emphasizes:
 
-This is intentional — this is a demo prototype, not a production application.
-
----
-
-## Managed Relationship
-
-See [MANAGED_RELATIONSHIP.md](.github/governance/MANAGED_RELATIONSHIP.md) for the full description of what Evident Technologies controls, what you control, and how to exit this arrangement.
-
-**Short version:** You own everything. Evident operates it.
+* semantic structure
+* keyboard accessibility
+* reduced-motion support
+* responsive layouts
+* optimized typography cadence
+* and lightweight static delivery.
 
 ---
 
 ## Support
 
-**Devon Tyler Barber** — devon@evident.icu
-**Evident Technologies LLC** — https://evident.icu
+For repository or deployment questions:
+
+GitHub:
+https://github.com/ISolano7
+
+---
+
+## License
+
+All branding, creative assets, and original content associated with Loca Yolk remain the property of their respective owners unless otherwise stated.
