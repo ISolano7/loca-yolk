@@ -6,10 +6,10 @@ on:
       - main
 
   workflow_dispatch:
-  
+
 env:
-FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  PROTOTYPE_GOVERNANCE_PROFILE: prototype-static
 
 permissions:
   contents: read
