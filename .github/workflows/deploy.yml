@@ -1,13 +1,5 @@
 name: Deploy Loca Yolk
 
-# ─────────────────────────────────────────────
-
-# Lightweight GitHub Pages Deployment
-
-# Loca Yolk — Static Site
-
-# ─────────────────────────────────────────────
-
 on:
 push:
 branches:
@@ -31,37 +23,32 @@ jobs:
 deploy:
 runs-on: ubuntu-latest
 
+```
 environment:
   name: github-pages
   url: ${{ steps.deployment.outputs.page_url }}
 
 steps:
-
-  # ── Checkout ───────────────────────────
   - name: Checkout repository
     uses: actions/checkout@v4
 
-  # ── Setup Node.js ─────────────────────
   - name: Setup Node.js
     uses: actions/setup-node@v4
     with:
       node-version: 24
 
-  # ── Governance Boundary Guard ─────────
   - name: Prototype boundary guard
     run: node scripts/boundary-check.mjs
 
-  # ── Configure GitHub Pages ────────────
   - name: Configure GitHub Pages
     uses: actions/configure-pages@v5
 
-  # ── Upload Site Artifact ──────────────
   - name: Upload Pages artifact
     uses: actions/upload-pages-artifact@v3
     with:
       path: .
 
-  # ── Deploy ────────────────────────────
   - name: Deploy to GitHub Pages
     id: deployment
     uses: actions/deploy-pages@v4
+```
