@@ -6,6 +6,21 @@ Loca Yolk is a family-run breakfast and lunch grill built around generous plates
 
 ---
 
+## Preview Status
+
+This site is currently a **static preview**. Menu items, hours, location, contact details, and business copy are placeholders until confirmed by the owners.
+
+Before taking the site public, the owners should approve:
+
+* Business name and description
+* Menu items and dish descriptions
+* Hours, address, and phone number
+* Social media handle
+* Photos, logo, and other visual assets
+* Final public domain and launch decision
+
+---
+
 ## Live Site
 
 🌐 https://isolano7.github.io/loca-yolk/
