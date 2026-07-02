@@ -10,7 +10,7 @@ This is a static HTML prototype. There is no server, no database, no user accoun
 
 ## Reporting a Vulnerability
 
-If you discover a security issue with this repository or the deployed site at [loca-yolk.evidtech.com](https://loca-yolk.evidtech.com):
+If you discover a security issue with this repository or the deployed site at [locayolk.evidtech.com](https://locayolk.evidtech.com):
 
 **Contact:** devon@evident.icu
 **Subject line:** `[Security] loca-yolk — brief description`

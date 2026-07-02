@@ -67,9 +67,9 @@
       "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap",
       "https://fonts.gstatic.com",
       "https://isolano7.github.io/loca-yolk/",
-      "https://loca-yolk.evidtech.com/"
+      "https://locayolk.evidtech.com/"
     ],
-    "expectedCname": "",
-    "_cnameNote": "GitHub Pages native deployment — no custom CNAME configured"
+    "expectedCname": "locayolk.evidtech.com",
+    "_cnameNote": "Hosted preview domain configured in CNAME: locayolk.evidtech.com"
   }
 }

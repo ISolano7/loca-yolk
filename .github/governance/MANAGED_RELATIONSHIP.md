@@ -72,7 +72,7 @@ None of these actions require Evident's approval or cooperation.
 The live site currently uses a domain managed by Evident Technologies LLC:
 
 ```
-loca-yolk.evidtech.com  →  ISolano7.github.io
+locayolk.evidtech.com  →  ISolano7.github.io
 ```
 
 This is a **transitional arrangement** — it is not a long-term solution. The DNS entry lives in Evident's Cloudflare account. If Evident Technologies LLC ceased to operate, this domain entry would eventually expire and the custom domain would stop resolving (though the site itself at `ISolano7.github.io` would continue working).
