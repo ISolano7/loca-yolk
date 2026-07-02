@@ -1,8 +1,23 @@
 # Loca Yolk
 
-American Breakfast. Mexican Heart.
+Family-run breakfast and lunch grill.
 
-Loca Yolk is a modern breakfast and lunch concept inspired by the warmth of classic American diners and the soulful traditions of Mexican family cooking — fresh ingredients, handmade recipes, and hospitality rooted in community, culture, and care.
+Loca Yolk is a family-run breakfast and lunch grill built around generous plates, fresh prep, and the kind of cooking people come back for.
+
+---
+
+## Preview Status
+
+This site is currently a **static preview**. Menu items, hours, location, contact details, and business copy are placeholders until confirmed by the owners.
+
+Before taking the site public, the owners should approve:
+
+* Business name and description
+* Menu items and dish descriptions
+* Hours, address, and phone number
+* Social media handle
+* Photos, logo, and other visual assets
+* Final public domain and launch decision
 
 ---
 
@@ -24,7 +39,7 @@ Repository Owner:
 
 ## About This Project
 
-This repository contains the official static website prototype for Loca Yolk.
+This repository contains the static website preview for Loca Yolk.
 
 The site is designed as a lightweight, deployment-friendly experience built with:
 
@@ -114,17 +129,17 @@ loca-yolk/
 The Loca Yolk brand is built around:
 
 * welcoming hospitality
-* American breakfast traditions
-* Mexican culinary heritage
-* handcrafted presentation
-* family-centered warmth
-* and refined neighborhood brunch culture.
+* generous breakfast and lunch plates
+* fresh, simple ingredients
+* family-run hospitality
+* warm neighborhood feel
+* honest, unpretentious presentation.
 
 The experience intentionally avoids:
 
 * gimmick-heavy restaurant branding
 * excessive animation
-* aggressive “spicy food” stereotypes
+* exaggerated heat or cultural stereotypes
 * or trend-driven startup aesthetics.
 
 The goal is a timeless, warm, and approachable dining identity.

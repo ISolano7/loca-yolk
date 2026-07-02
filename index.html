@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>
-  LOCA YOLK — American Breakfast & Mexican-Inspired Lunch
+  Loca Yolk — Family-run breakfast & lunch grill
 </title>
 
 <meta
   name="description"
-  content="Loca Yolk is a modern breakfast and lunch concept inspired by classic American diner culture and the soulful traditions of Mexican family cooking — fresh ingredients, handmade recipes, and warm hospitality served daily."
+  content="Loca Yolk is a family-run breakfast and lunch grill serving fresh, simple food made with care."
 />
 
 <meta
   name="keywords"
-  content="American breakfast, Mexican-inspired brunch, breakfast restaurant, brunch concept, handmade tortillas, chilaquiles, breakfast burritos, diner-style breakfast, family restaurant"
+  content="breakfast, lunch, family-run grill, neighborhood restaurant"
 />
 
 <meta
@@ -29,12 +29,12 @@
 
 <meta
   property="og:title"
-  content="LOCA YOLK — American Breakfast & Mexican-Inspired Lunch"
+  content="Loca Yolk — Family-run breakfast & lunch grill"
 />
 
 <meta
   property="og:description"
-  content="A warm, family-inspired breakfast and lunch concept blending American comfort food with the rich traditions of Mexican home cooking."
+  content="A family-run local grill serving breakfast, lunch, and Mexican favorites made with care."
 />
 
 <meta
@@ -79,7 +79,7 @@
 />
 
 <!-- et:institutional-operational-lineage -->
-  <link rel="canonical" href="https://loca-yolk.evidtech.com/" />
+  <link rel="canonical" href="https://isolano7.github.io/loca-yolk/" />
   </head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -115,8 +115,9 @@
           --header-offset: calc(var(--ticker-height) + var(--nav-height));
           --bottom-banner-height: 42px;
           --content-width: 1280px;
-          --section-padding: clamp(5rem, 8vw, 8rem);
+          --section-padding: clamp(4.5rem, 10vw, 9rem);
           --container-padding: clamp(1.25rem, 4vw, 3rem);
+          --section-gap: clamp(0px, 4vw, 3rem);
 
           /* ── Z-index hierarchy ────────────────────────────────── */
           --z-ticker: 100;
@@ -128,13 +129,17 @@
           --z-badge: 200;
 
           /* ── Brand palette ────────────────────────────────────── */
-          --cream: #f7f1e8;
-          --warm-white: #fefcf7;
-          --yellow: #ffcb05;
-          --orange: #ff6a00;
-          --red: #d72638;
+          --cream: #f5efe6;
+          --warm-white: #fdfbf7;
+          --paper: #f9f6f1;
+          --charcoal: #1a1a1a;
+          --ink: #2c2620;
+          --yellow: #e8a435;
+          --orange: #c75b2b;
+          --red: #a6362d;
+          --green: #4a6b48;
+          --sage: #7d8f72;
           --black: #111111;
-          --green: #1b5e20;
 
           /* ── Evident Technologies signature tokens ────────────── */
           --et-sapphire: oklch(45% 0.18 255);
@@ -150,14 +155,18 @@
           --space-2xl: 128px;
 
           /* ── Elevation ────────────────────────────────────────── */
-          --elev-1: 0 1px 3px oklch(0% 0 0 / 0.08);
-          --elev-2: 0 4px 12px oklch(0% 0 0 / 0.12);
-          --elev-3: 0 12px 40px oklch(0% 0 0 / 0.18);
+          --elev-1: 0 1px 2px oklch(18% 0.02 75 / 0.06), 0 1px 3px oklch(18% 0.02 75 / 0.08);
+          --elev-2: 0 4px 12px oklch(18% 0.02 75 / 0.08), 0 2px 4px oklch(18% 0.02 75 / 0.06);
+          --elev-3: 0 16px 48px oklch(18% 0.03 75 / 0.12), 0 4px 8px oklch(18% 0.02 75 / 0.06);
+
+          /* ── Texture ──────────────────────────────────────────── */
+          --paper-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 
           /* ── Radius ───────────────────────────────────────────── */
-          --radius-sm: 8px;
-          --radius-md: 16px;
-          --radius-lg: 24px;
+          --radius-sm: 6px;
+          --radius-md: 12px;
+          --radius-lg: 20px;
+          --radius-xl: 28px;
           --radius-full: 999px;
 
           /* ── Motion ───────────────────────────────────────────── */
@@ -174,7 +183,7 @@
         body {
           font-family: "Inter", sans-serif;
           background: var(--cream);
-          color: var(--black);
+          color: var(--ink);
           overflow-x: hidden;
         }
 
@@ -193,7 +202,7 @@
 
         ::selection {
           background: var(--yellow);
-          color: var(--black);
+          color: var(--ink);
         }
 
         :focus-visible {
@@ -218,6 +227,31 @@
 
       @layer components {
 
+        /* ═══ ENTRANCE ANIMATION ═══════════════════════════════════ */
+        .reveal {
+          opacity: 0;
+          transform: translateY(24px);
+          transition:
+            opacity 700ms var(--ease-out),
+            transform 700ms var(--ease-out);
+          will-change: opacity, transform;
+        }
+
+        .reveal.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Prefer reduced motion: disable entrance animations */
+        @media (prefers-reduced-motion: reduce) {
+          .reveal {
+            opacity: 1;
+            transform: none;
+            transition: none;
+            will-change: auto;
+          }
+        }
+
         /* ═══ TICKER ═════════════════════════════════════════════════ */
         .ticker {
           position: fixed;
@@ -226,7 +260,7 @@
           display: flex;
           align-items: center;
           overflow: hidden;
-          background: linear-gradient(90deg, #ffcb05 0%, #ffd84d 50%, #ffcb05 100%);
+          background: linear-gradient(90deg, #e8a435 0%, #f2bd5a 50%, #e8a435 100%);
           border-bottom: 1px solid rgba(0, 0, 0, 0.08);
           z-index: var(--z-ticker);
           /* Contain so the fixed child doesn't trigger layout in the rest of the doc */
@@ -354,8 +388,10 @@
           transition: color 200ms;
         }
 
-        .nav-links a:hover {
-          color: var(--yellow);
+        @media (hover: hover) and (pointer: fine) {
+          .nav-links a:hover {
+            color: var(--yellow);
+          }
         }
 
         @media (max-width: 640px) {
@@ -382,16 +418,18 @@
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(circle at 20% 25%, rgba(255, 203, 5, 0.22), transparent 45%),
-            radial-gradient(circle at 78% 35%, rgba(215, 38, 56, 0.2), transparent 50%),
-            linear-gradient(160deg, #2a1f14 0%, #4a2d1f 45%, #6a3b22 100%);
-          transform: scale(1.06);
+            radial-gradient(circle at 22% 30%, rgba(232, 164, 53, 0.14), transparent 42%),
+            radial-gradient(circle at 80% 25%, rgba(199, 91, 43, 0.12), transparent 48%),
+            radial-gradient(circle at 50% 100%, rgba(26, 26, 26, 0.55), transparent 60%),
+            linear-gradient(165deg, #261d16 0%, #3d2a20 40%, #4f3226 100%);
+          transform: scale(1.06) translateY(var(--parallax-y, 0px));
           transition: transform 10s var(--ease-out);
           z-index: -3;
+          will-change: transform;
         }
 
         .hero-photo.loaded {
-          transform: scale(1);
+          transform: scale(1) translateY(var(--parallax-y, 0px));
         }
 
         .hero-overlay {
@@ -399,9 +437,9 @@
           inset: 0;
           background: linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.55) 0%,
-            rgba(0, 0, 0, 0.35) 50%,
-            rgba(0, 0, 0, 0.72) 100%
+            rgba(26, 20, 16, 0.62) 0%,
+            rgba(26, 20, 16, 0.32) 45%,
+            rgba(26, 20, 16, 0.74) 100%
           );
           z-index: -2;
         }
@@ -451,30 +489,33 @@
         }
 
         .hero h1 {
-          font-size: clamp(4.5rem, 12vw, 9.5rem);
-          line-height: 0.88;
+          font-size: clamp(4rem, 11vw, 8.5rem);
+          line-height: 0.9;
           color: var(--yellow);
           text-shadow:
-            0 0 60px rgba(255, 203, 5, 0.22),
-            0 4px 0 rgba(0, 0, 0, 0.4);
-          letter-spacing: 4px;
+            0 0 80px rgba(232, 164, 53, 0.18),
+            0 2px 0 rgba(0, 0, 0, 0.25);
+          letter-spacing: 3px;
         }
 
         .hero-tagline {
-          font-size: clamp(1rem, 2.2vw, 1.618rem);
+          font-size: clamp(0.95rem, 2vw, 1.35rem);
           margin-top: var(--space-lg);
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 5px;
-          color: rgba(255, 255, 255, 0.88);
+          font-weight: 600;
+          text-transform: none;
+          letter-spacing: 0.5px;
+          color: rgba(255, 255, 255, 0.86);
+          max-width: 640px;
+          margin-inline: auto;
+          line-height: 1.5;
         }
 
         .hero-subcopy {
           margin: var(--space-lg) auto 0;
-          max-width: 580px;
-          font-size: clamp(0.92rem, 1.8vw, 1.05rem);
-          line-height: 1.85;
-          color: rgba(255, 255, 255, 0.78);
+          max-width: 560px;
+          font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+          line-height: 1.75;
+          color: rgba(255, 255, 255, 0.72);
         }
 
         .cta-row {
@@ -494,33 +535,47 @@
         }
 
         .btn {
-          padding: 0.9rem 2rem;
+          padding: 0.95rem 2.25rem;
           border-radius: var(--radius-full);
           border: none;
           cursor: pointer;
           font-weight: 700;
-          font-size: 0.82rem;
-          letter-spacing: 2px;
+          font-size: 0.8rem;
+          letter-spacing: 1.8px;
           text-transform: uppercase;
           transition:
-            transform 300ms var(--spring),
+            transform 260ms var(--spring),
             box-shadow 250ms ease,
             background 200ms ease;
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: var(--space-sm);
           text-decoration: none;
+          min-height: 48px;
+          min-width: 160px;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          .btn:hover {
+            transform: translateY(-3px);
+          }
+          .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+          }
+          .btn-secondary:hover {
+            transform: translateY(-2px);
+          }
         }
 
         .btn-primary {
           background: var(--yellow);
-          color: var(--black);
+          color: var(--ink);
           box-shadow: 0 6px 24px rgba(255, 203, 5, 0.4);
         }
 
         .btn-primary:hover {
-          transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 12px 36px rgba(255, 203, 5, 0.5);
+          box-shadow: 0 12px 36px rgba(232, 164, 53, 0.45);
         }
 
         .btn-secondary {
@@ -533,7 +588,6 @@
         .btn-secondary:hover {
           background: rgba(255, 255, 255, 0.18);
           border-color: white;
-          transform: translateY(-2px);
         }
 
         .scroll-hint {
@@ -606,10 +660,12 @@
         /* ═══ ABOUT ══════════════════════════════════════════════════ */
         .about {
           background: var(--warm-white);
+          background-image: var(--paper-noise);
           display: grid;
           grid-template-columns: 1fr;
-          gap: var(--space-2xl);
+          gap: var(--space-xl);
           align-items: start;
+          padding-block: calc(var(--section-padding) * 1.1);
         }
 
         @media (min-width: 768px) {
@@ -620,19 +676,20 @@
         }
 
         .about-heading {
-          font-size: clamp(2.8rem, 6vw, 5rem);
+          font-size: clamp(2.6rem, 5.5vw, 4.5rem);
           color: var(--red);
-          line-height: 0.93;
+          line-height: 0.96;
+          letter-spacing: 1px;
         }
 
         .about-heading .accent {
-          color: var(--orange);
+          color: var(--sage);
         }
 
         .about-body p {
           font-size: 1.05rem;
-          line-height: 1.92;
-          color: #4a4a4a;
+          line-height: 1.85;
+          color: #4f4a44;
         }
 
         .about-body p + p {
@@ -654,26 +711,30 @@
 
         .stat {
           background: white;
+          background-image: var(--paper-noise);
           padding: var(--space-lg) var(--space-md);
           border-radius: var(--radius-lg);
           text-align: center;
           box-shadow: var(--elev-2);
-          border: 1px solid rgba(0, 0, 0, 0.05);
+          border: 1px solid rgba(44, 38, 32, 0.05);
           transition:
             transform 300ms var(--spring),
             box-shadow 300ms ease;
         }
 
-        .stat:hover {
-          transform: translateY(-6px);
-          box-shadow: var(--elev-3);
+        @media (hover: hover) and (pointer: fine) {
+          .stat:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--elev-3);
+          }
         }
 
         .stat-value {
           font-family: "Bebas Neue", sans-serif;
-          font-size: 2.6rem;
+          font-size: 2.4rem;
           color: var(--orange);
           line-height: 1;
+          letter-spacing: 1px;
         }
 
         .stat-label {
@@ -687,12 +748,14 @@
 
         /* ═══ MENU ═══════════════════════════════════════════════════ */
         .menu {
-          background: var(--black);
+          background: var(--charcoal);
+          background-image: var(--paper-noise);
           color: white;
           text-align: center;
           position: relative;
           overflow: hidden;
           isolation: isolate;
+          padding-block: calc(var(--section-padding) * 1.15);
         }
 
         .menu-mesh {
@@ -737,10 +800,11 @@
         }
 
         .menu-card {
-          background: #1d1d1d;
+          background: rgba(255, 255, 255, 0.045);
+          background-image: var(--paper-noise);
           padding: var(--space-xl) var(--space-lg);
           border-radius: var(--radius-lg);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           position: relative;
           overflow: hidden;
           transition:
@@ -748,6 +812,8 @@
             background-color 220ms ease,
             border-color 220ms ease,
             box-shadow 220ms ease;
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
         }
 
         .menu-card::before {
@@ -762,10 +828,13 @@
           transition: opacity 300ms;
         }
 
-        .menu-card:hover {
-          transform: translateY(-8px);
-          background: #242424;
-          box-shadow: 0 24px 60px rgba(255, 106, 0, 0.14);
+        @media (hover: hover) and (pointer: fine) {
+          .menu-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.28);
+          }
         }
 
         .menu-card:hover::before {
@@ -780,24 +849,27 @@
         }
 
         .menu-card h3 {
-          font-size: 1.75rem;
+          font-size: 1.65rem;
           color: var(--yellow);
           margin-bottom: var(--space-sm);
+          letter-spacing: 0.5px;
         }
 
         .menu-card p {
-          color: rgba(255, 255, 255, 0.58);
-          font-size: 0.92rem;
-          line-height: 1.75;
+          color: rgba(255, 255, 255, 0.62);
+          font-size: 0.93rem;
+          line-height: 1.7;
         }
 
         .menu-meta {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: var(--space-sm);
           margin-top: var(--space-md);
           padding-top: var(--space-md);
-          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          flex-wrap: wrap;
         }
 
         .menu-category {
@@ -805,21 +877,32 @@
           font-weight: 700;
           letter-spacing: 2px;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.35);
+          color: rgba(255, 255, 255, 0.45);
         }
 
-        .menu-heat {
-          font-size: 0.85rem;
+        .menu-tag {
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 1.8px;
+          text-transform: uppercase;
+          color: rgba(232, 164, 53, 0.85);
+          border: 1px solid rgba(232, 164, 53, 0.35);
+          padding: 0.25rem 0.55rem;
+          border-radius: var(--radius-full);
         }
+
 
         /* ═══ WEEKLY SPECIALS ════════════════════════════════════════ */
         .weekly {
-          background: linear-gradient(135deg, var(--red) 0%, var(--orange) 100%);
+          background:
+            linear-gradient(135deg, rgba(166, 54, 45, 0.92) 0%, rgba(199, 91, 43, 0.92) 100%),
+            var(--paper-noise);
           color: white;
           text-align: center;
           position: relative;
           overflow: hidden;
           isolation: isolate;
+          padding-block: calc(var(--section-padding) * 1.1);
         }
 
         .weekly-geo {
@@ -872,21 +955,23 @@
         }
 
         .day {
-          background: color-mix(in oklch, white 14%, transparent);
+          background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(14px) saturate(1.3);
           -webkit-backdrop-filter: blur(14px) saturate(1.3);
           padding: var(--space-xl) var(--space-md);
           border-radius: var(--radius-md);
-          border: 1px solid rgba(255, 255, 255, 0.22);
+          border: 1px solid rgba(255, 255, 255, 0.18);
           cursor: default;
           transition:
             transform 250ms var(--spring),
             background 250ms ease;
         }
 
-        .day:hover {
-          transform: translateY(-5px) scale(1.02);
-          background: color-mix(in oklch, white 22%, transparent);
+        @media (hover: hover) and (pointer: fine) {
+          .day:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.16);
+          }
         }
 
         .day-label {
@@ -910,10 +995,12 @@
         /* ═══ HOURS ══════════════════════════════════════════════════ */
         .hours {
           background: var(--warm-white);
+          background-image: var(--paper-noise);
           display: grid;
           grid-template-columns: 1fr;
-          gap: var(--space-2xl);
+          gap: var(--space-xl);
           align-items: center;
+          padding-block: calc(var(--section-padding) * 1.1);
         }
 
         @media (min-width: 768px) {
@@ -928,50 +1015,50 @@
           margin-bottom: var(--space-xl);
         }
 
-        .hours-table {
-          width: 100%;
-          border-collapse: collapse;
+        .hours-note {
+          max-width: 520px;
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: #4f4a44;
+          background: white;
+          background-image: var(--paper-noise);
+          padding: var(--space-lg) var(--space-xl);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--elev-2);
+          border: 1px solid rgba(44, 38, 32, 0.06);
         }
 
-        .hours-table tr {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-        }
-
-        .hours-table tr:last-child {
-          border-bottom: none;
-        }
-
-        .hours-table td {
-          padding: var(--space-md) 0;
-          font-size: 0.95rem;
-          line-height: 1.4;
-        }
-
-        .hours-table td:first-child {
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: var(--orange);
-          font-size: 0.78rem;
-        }
-
-        .hours-table td:last-child {
-          text-align: right;
-          color: #666;
-        }
 
         @media (max-width: 640px) {
           .section {
-            padding: var(--space-xl) 6vw;
+            padding: var(--space-xl) 5vw;
           }
 
           .hero {
             padding-inline: var(--space-md);
+            padding-block-start: calc(var(--header-offset) + 3.5rem);
+          }
+
+          .hero h1 {
+            letter-spacing: 1px;
+          }
+
+          .hero-tagline {
+            font-size: 1rem;
           }
 
           .prototype-badge {
             right: var(--space-md);
             bottom: var(--space-md);
+          }
+
+          .btn {
+            width: 100%;
+            min-height: 52px;
+          }
+
+          .cta-row {
+            width: 100%;
           }
         }
 
@@ -982,7 +1069,7 @@
           }
 
           .hero-tagline {
-            letter-spacing: 2px;
+            letter-spacing: 0.5px;
           }
 
           .prototype-badge,
@@ -993,6 +1080,19 @@
           .days {
             grid-template-columns: 1fr;
           }
+
+          .about {
+            gap: var(--space-xl);
+          }
+
+          .menu-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+          }
+
+          .hours {
+            gap: var(--space-xl);
+          }
         }
 
         @media (max-width: 480px) {
@@ -1002,26 +1102,49 @@
 
           .cta-row {
             flex-direction: column;
+            width: 100%;
           }
 
           .btn {
             width: 100%;
             justify-content: center;
+            min-height: 52px;
+          }
+
+          .stat-value {
+            font-size: 2rem;
+          }
+
+          .footer-wordmark {
+            letter-spacing: 3px;
           }
         }
 
         .location-card {
           background: white;
+          background-image: var(--paper-noise);
           padding: var(--space-xl);
           border-radius: var(--radius-lg);
           box-shadow: var(--elev-2);
-          border: 1px solid rgba(0, 0, 0, 0.06);
+          border: 1px solid rgba(44, 38, 32, 0.06);
         }
 
         .location-card h3 {
-          font-size: 1.8rem;
+          font-size: 1.7rem;
           color: var(--red);
           margin-bottom: var(--space-md);
+          letter-spacing: 0.5px;
+        }
+
+        .location-card-note {
+          margin-top: 1rem;
+          font-size: 0.88rem;
+          color: #999;
+          line-height: 1.7;
+        }
+
+        .location-card-handle {
+          color: #555;
         }
 
         .location-card p {
@@ -1035,7 +1158,7 @@
           align-items: center;
           gap: var(--space-sm);
           background: var(--yellow);
-          color: var(--black);
+          color: var(--ink);
           padding: var(--space-sm) var(--space-lg);
           border-radius: var(--radius-full);
           font-size: 0.7rem;
@@ -1051,13 +1174,13 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          backdrop-filter: blur(12px);
-          background: linear-gradient(135deg, #1b5e20, #2e7d32);
+          background: var(--green);
+          background-image: var(--paper-noise);
           color: white;
           text-align: center;
           padding: var(--space-lg) var(--space-xl);
-          font-size: 0.72rem;
-          letter-spacing: 3px;
+          font-size: 0.7rem;
+          letter-spacing: 2.5px;
           font-weight: 700;
           text-transform: uppercase;
           border: none;
@@ -1065,10 +1188,11 @@
 
         /* ═══ FOOTER ═════════════════════════════════════════════════ */
         .footer {
-          background: var(--black);
+          background: var(--charcoal);
+          background-image: var(--paper-noise);
           color: white;
           text-align: center;
-          padding: var(--space-2xl) var(--space-lg);
+          padding: calc(var(--space-2xl) * 0.9) var(--space-lg);
           padding-bottom: calc(var(--bottom-banner-height) + 5rem);
           position: relative;
           overflow: hidden;
@@ -1347,23 +1471,23 @@
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Chorizo Sunrise</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Migas Magnificas</span>
+          <span class="ticker-item">Migas</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Family Recipes</span>
+          <span class="ticker-item">Fresh Prep Daily</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Breakfast Burritos</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Homemade Chilaquiles</span>
+          <span class="ticker-item">Chilaquiles</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Mole Monday</span>
+          <span class="ticker-item">Mole Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Taco Tuesday</span>
+          <span class="ticker-item">Taco Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Birria Wednesday</span>
+          <span class="ticker-item">Birria Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Pozole Thursday</span>
+          <span class="ticker-item">Pozole Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Seafood Friday</span>
+          <span class="ticker-item">Seafood Day</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Weekend Brunch</span>
           <span class="ticker-separator">•</span>
@@ -1375,23 +1499,23 @@
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Chorizo Sunrise</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Migas Magnificas</span>
+          <span class="ticker-item">Migas</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Family Recipes</span>
+          <span class="ticker-item">Fresh Prep Daily</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Breakfast Burritos</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Homemade Chilaquiles</span>
+          <span class="ticker-item">Chilaquiles</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Mole Monday</span>
+          <span class="ticker-item">Mole Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Taco Tuesday</span>
+          <span class="ticker-item">Taco Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Birria Wednesday</span>
+          <span class="ticker-item">Birria Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Pozole Thursday</span>
+          <span class="ticker-item">Pozole Day</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Seafood Friday</span>
+          <span class="ticker-item">Seafood Day</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Weekend Brunch</span>
           <span class="ticker-separator">•</span>
@@ -1458,21 +1582,19 @@
         <h1 id="hero-h1">LOCA YOLK</h1>
 
         <p class="hero-tagline">
-          Crafted with Care. Served with Love.
+          Family-run grill. Fresh breakfast, lunch, and Mexican favorites made with care.
         </p>
 
         <p class="hero-subcopy">
-          Bringing together American breakfast comfort and the soulful traditions of
-          Mexican family cooking, Loca Yolk is a warm, welcoming kitchen built around
-          fresh food, good mornings, and the people who make every table feel like home.
+          Loca Yolk is a small local grill built around generous plates, fresh prep, and the kind of cooking people come back for.
         </p>
 
         <div class="cta-row">
           <a href="#menu" class="btn btn-primary" aria-describedby="demo-interface-note">
-            Preview Menu Section
+            View menu preview
           </a>
           <a href="#hours" class="btn btn-secondary" aria-describedby="demo-interface-note">
-            Explore Concept Timeline
+            Opening details coming soon
           </a>
         </div>
 
@@ -1490,12 +1612,12 @@
     <!-- ── ABOUT ──────────────────────────────────────────────────── -->
    <section class="section about" id="about" aria-labelledby="ly-about-title">
   <div class="reveal">
-    <span class="eyebrow">Our Story</span>
+    <span class="eyebrow">From the kitchen</span>
 
  
 <h2 id="ly-about-title" class="about-heading">
-  MADE WITH CARE.<br />
-  <span class="accent">SERVED WITH LOVE.</span>
+  FRESH PREP.<br />
+  <span class="accent">MADE WITH CARE.</span>
 </h2>
  
 
@@ -1504,40 +1626,36 @@
   <div class="reveal" style="transition-delay: 120ms">
     <div class="about-body">
       <p>
-        Loca Yolk brings together the comfort of classic American breakfast
-        culture and the rich traditions of Mexican family cooking — handmade
-        tortillas, slow-simmered salsas, fresh ingredients, and recipes inspired
-        by generations of hardworking kitchens and shared meals.
+        Behind Loca Yolk is a family that knows the kitchen by feel: hot grill,
+        fresh ingredients, steady hands, and food made to feed people well.
       </p>
 
  
   <p>
-    We open early, cook with care, and serve every guest like family. From
-    warm coffee to fresh breakfast plates, every dish is rooted in
-    hospitality, tradition, and the kind of food that brings people together
-    around the table.
+    This preview site introduces the concept while the final menu, hours, and
+    ordering details are confirmed by the owners.
   </p>
 </div>
 
 <div class="stats">
   <div class="stat reveal" style="transition-delay: 200ms">
-    <div class="stat-value">23</div>
-    <div class="stat-label">Signature Plates</div>
+    <div class="stat-value">—</div>
+    <div class="stat-label">Menu preview</div>
   </div>
 
   <div class="stat reveal" style="transition-delay: 280ms">
-    <div class="stat-value">7AM</div>
-    <div class="stat-label">Fresh Each Morning</div>
+    <div class="stat-value">—</div>
+    <div class="stat-label">Hours coming soon</div>
   </div>
 
   <div class="stat reveal" style="transition-delay: 360ms">
-    <div class="stat-value">100%</div>
-    <div class="stat-label">Handmade Tortillas</div>
+    <div class="stat-value">—</div>
+    <div class="stat-label">Made with care</div>
   </div>
 
   <div class="stat reveal" style="transition-delay: 440ms">
     <div class="stat-value">❤</div>
-    <div class="stat-label">Family Inspired</div>
+    <div class="stat-label">Family-run</div>
   </div>
 </div>
  
@@ -1550,69 +1668,69 @@
       <div class="menu-mesh" aria-hidden="true"></div>
 
       <div class="reveal">
-        <span class="eyebrow" style="color: rgba(255, 203, 5, 0.55)">— The Menu —</span>
-        <h2 class="menu-heading" id="menu-h2">WHAT'S COOKIN'</h2>
-        <p class="menu-sub">Signature plates &nbsp;•&nbsp; Made fresh daily</p>
+        <span class="eyebrow eyebrow-light">— Menu preview —</span>
+        <h2 class="menu-heading" id="menu-h2">FROM THE GRILL</h2>
+        <p class="menu-sub">A preview of what the kitchen is building. Final dishes and prices to come.</p>
       </div>
 
       <div class="menu-grid">
         <article class="menu-card reveal" style="transition-delay: 80ms">
           <span class="menu-emoji" aria-hidden="true">🍳</span>
           <h3>Huevos Rancheros</h3>
-          <p>Ranch-style eggs over crispy tortillas, smothered in house red salsa and crowned with queso fresco.</p>
+          <p>Ranch-style eggs with crispy tortillas, house red salsa, and queso fresco.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Two chili heat level">🌶🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 160ms">
           <span class="menu-emoji" aria-hidden="true">🌯</span>
-          <h3>Desperado Burrito</h3>
-          <p>A breakfast outlaw stuffed with spiced chorizo, scrambled eggs, roasted peppers, and contraband salsa verde.</p>
+          <h3>Breakfast Burrito</h3>
+          <p>Scrambled eggs, chorizo, roasted peppers, and salsa verde wrapped in a warm tortilla.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 240ms">
           <span class="menu-emoji" aria-hidden="true">🥚</span>
-          <h3>Migas Magnificas</h3>
-          <p>Crunchy tortilla strips, scrambled eggs, melted cheese, roasted chiles, and the beautiful chaos that follows.</p>
+          <h3>Migas</h3>
+          <p>Crispy tortilla strips with scrambled eggs, melted cheese, and roasted chiles.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="One chili heat level">🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 320ms">
           <span class="menu-emoji" aria-hidden="true">🌮</span>
-          <h3>Border Patrol Chilaquiles</h3>
-          <p>Red sauce. Crispy chips. Crema. Cotija. Absolute destruction. You won't want anything else.</p>
+          <h3>Chilaquiles</h3>
+          <p>Tortilla chips in red salsa with crema, cotija, and a fried egg.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 400ms">
           <span class="menu-emoji" aria-hidden="true">☀️</span>
           <h3>Chorizo Sunrise</h3>
-          <p>Spiced Mexican chorizo, sunny-side up eggs, sliced avocado, and warm hand-pressed tortillas.</p>
+          <p>Chorizo, eggs, sliced avocado, and warm tortillas.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
-            <span class="menu-heat" aria-label="Two chili heat level">🌶🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 480ms">
           <span class="menu-emoji" aria-hidden="true">👑</span>
-          <h3>The Jalapeño Queen</h3>
-          <p>Jalapeño hash, eggs your way, pickled pepper crown. Not for the faint of heart. You've been warned.</p>
+          <h3>Jalapeño Hash</h3>
+          <p>Jalapeño hash with eggs your way and pickled peppers.</p>
           <div class="menu-meta">
             <span class="menu-category">Lunch</span>
-            <span class="menu-heat" aria-label="Three chili heat level">🌶🌶🌶</span>
+            <span class="menu-tag">Fresh</span>
           </div>
         </article>
       </div>
@@ -1646,18 +1764,18 @@
 
       <div class="weekly-inner">
         <div class="reveal">
-          <span class="eyebrow" style="color: rgba(255, 255, 255, 0.5)">— Limited Time —</span>
-          <h2 class="weekly-heading" id="weekly-h2">WEEKLY SPECIALS</h2>
-          <p class="weekly-sub">Every day has its own flavor. Come back hungry.</p>
+          <span class="eyebrow eyebrow-muted">— Limited Time —</span>
+          <h2 class="weekly-heading" id="weekly-h2">WEEKLY ROTATION</h2>
+          <p class="weekly-sub">A preview rotation while the kitchen finalizes the schedule.</p>
         </div>
 
         <div class="days">
-          <div class="day reveal" style="transition-delay:  80ms"><span class="day-label">Monday</span>   <span class="day-name">Mole Monday</span></div>
-          <div class="day reveal" style="transition-delay: 150ms"><span class="day-label">Tuesday</span>  <span class="day-name">Taco Tuesday</span></div>
-          <div class="day reveal" style="transition-delay: 220ms"><span class="day-label">Wednesday</span><span class="day-name">Birria Hump Day</span></div>
-          <div class="day reveal" style="transition-delay: 290ms"><span class="day-label">Thursday</span> <span class="day-name">Pozole Thursday</span></div>
-          <div class="day reveal" style="transition-delay: 360ms"><span class="day-label">Friday</span>   <span class="day-name">Seafood Friday</span></div>
-          <div class="day reveal" style="transition-delay: 430ms"><span class="day-label">Sat / Sun</span><span class="day-name">Brunch Loco 🎉</span></div>
+          <div class="day reveal" style="transition-delay:  80ms"><span class="day-label">Monday</span>   <span class="day-name">Mole</span></div>
+          <div class="day reveal" style="transition-delay: 150ms"><span class="day-label">Tuesday</span>  <span class="day-name">Tacos</span></div>
+          <div class="day reveal" style="transition-delay: 220ms"><span class="day-label">Wednesday</span><span class="day-name">Birria</span></div>
+          <div class="day reveal" style="transition-delay: 290ms"><span class="day-label">Thursday</span> <span class="day-name">Pozole</span></div>
+          <div class="day reveal" style="transition-delay: 360ms"><span class="day-label">Friday</span>   <span class="day-name">Seafood</span></div>
+          <div class="day reveal" style="transition-delay: 430ms"><span class="day-label">Sat / Sun</span><span class="day-name">Weekend Brunch</span></div>
         </div>
       </div>
     </section>
@@ -1665,30 +1783,22 @@
     <!-- ── HOURS ──────────────────────────────────────────────────── -->
     <section class="section hours" id="hours" aria-labelledby="hours-h2">
       <div class="reveal">
-        <span class="eyebrow">Visit Us</span>
+        <span class="eyebrow">Visit Us (Preview)</span>
         <h2 id="hours-h2" class="hours-heading">HOURS &amp;<br />LOCATION</h2>
-        <table class="hours-table" aria-label="Business hours">
-          <tbody>
-            <tr><td>Mon – Fri</td><td>7:00 AM – 3:00 PM</td></tr>
-            <tr><td>Saturday</td><td>8:00 AM – 4:00 PM</td></tr>
-            <tr><td>Sunday</td>  <td>9:00 AM – 3:00 PM</td></tr>
-          </tbody>
-        </table>
+        <p class="hours-note">Hours will be posted once confirmed by the owners.</p>
       </div>
 
       <div class="reveal" style="transition-delay: 150ms">
         <div class="location-card">
-          <h3>📍 Find Us</h3>
+          <h3>📍 Location</h3>
           <p>
-            Somewhere in New Jersey<br />
-            where the vibes are right<br />
-            and the coffee is strong.
+            New Jersey area.<br />
+            Exact address coming soon.
           </p>
-          <p style="margin-top: 1rem; font-size: 0.88rem; color: #999; line-height: 1.7;">
-            Exact location announced Spring 2026.<br />
-            Follow <strong style="color: #555">@locayolk</strong> for the reveal.
+          <p class="location-card-note">
+            Follow <strong class="location-card-handle">@locayolk</strong> for updates as details are confirmed.
           </p>
-          <div class="location-badge">📍 Coming Spring 2026</div>
+          <div class="location-badge">Details coming soon</div>
         </div>
       </div>
     </section>
@@ -1710,25 +1820,20 @@
       </div>
 
       <p class="footer-sub">
-        Born on the Border. Raised on the Ranch.<br />
-        American–Mexican Breakfast &amp; Lunch &nbsp;•&nbsp; Est. 2026
+        Family-run breakfast and lunch grill.<br />
+        Fresh food made with care.
       </p>
 
       <p class="footer-social">@locayolk</p>
 
-      <p class="footer-tags">
-        #LocaYolk2026 &nbsp;•&nbsp; #BornOnTheBorder &nbsp;•&nbsp; #NJBreakfast
-      </p>
-
-      <hr class="footer-rule" aria-hidden="true" />
-
       <p class="footer-copy">
-        © 2026 Loca Yolk LLC &nbsp;•&nbsp; New Jersey &nbsp;•&nbsp; All eggs broken with love
+        © 2026 Loca Yolk preview site.
       </p>
 
       <p class="footer-prototype-notice">
-        Concept prototype by Evident Technologies<br />
-        Demo experience — not production ordering infrastructure
+        Loca Yolk is a family-run local grill.<br />
+        This website may be a preview while final menu, hours, ordering, and contact details are confirmed by the owners.<br />
+        Demo experience — not production ordering infrastructure.
       </p>
 
       <div class="et-watermark" aria-label="Digital experience by Evident Technologies LLC">
@@ -1760,43 +1865,7 @@
       </div>
     </aside>
 
-    <!--
-      Inlined from scripts/app.js — type="module" defers execution automatically
-      and scopes variables, replacing the need for an IIFE.
-    -->
-    <script type="module">
-      const nav = document.getElementById('main-nav');
-
-      // Throttle scroll handler via rAF to avoid layout thrash
-      let rafPending = false;
-      window.addEventListener('scroll', () => {
-        if (rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(() => {
-          nav.classList.toggle('scrolled', window.scrollY > 10);
-          rafPending = false;
-        });
-      }, { passive: true });
-
-      // Reveal elements as they enter the viewport
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(({ target, isIntersecting }) => {
-            if (isIntersecting) {
-              target.classList.add('visible');
-              revealObserver.unobserve(target); // fire once, then release
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      );
-      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-      // Trigger hero Ken Burns effect on next paint (it's a CSS gradient, no img to await)
-      requestAnimationFrame(() => {
-        document.getElementById('hero-photo')?.classList.add('loaded');
-      });
-    </script>
+    <script src="scripts/app.js" type="module"></script>
 
   </body>
 </html>
