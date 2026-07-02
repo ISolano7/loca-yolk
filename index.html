@@ -271,9 +271,17 @@
         .ticker-marquee {
           display: flex;
           width: max-content;
-          animation: ticker-scroll 42s linear infinite;
+          animation: ticker-scroll 120s linear infinite;
           /* will-change already promotes to a compositing layer; translateZ is redundant */
           will-change: transform;
+        }
+
+        /* Pause the banner so users can read it on pointer devices */
+        @media (hover: hover) and (pointer: fine) {
+          .ticker:hover .ticker-marquee,
+          .ticker:focus-within .ticker-marquee {
+            animation-play-state: paused;
+          }
         }
 
         .ticker-track {
@@ -1469,25 +1477,19 @@
         <div class="ticker-track">
           <span class="ticker-item">Huevos Rancheros</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Chorizo Sunrise</span>
+          <span class="ticker-item">Chilaquiles</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Migas</span>
+          <span class="ticker-item">Huevos con Chorizo</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Molletes</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Burrito de Desayuno</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Tamales</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Fresh Prep Daily</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Breakfast Burritos</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Chilaquiles</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Mole Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Taco Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Birria Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Pozole Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Seafood Day</span>
+          <span class="ticker-item">Weekly Rotation</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Weekend Brunch</span>
           <span class="ticker-separator">•</span>
@@ -1497,25 +1499,19 @@
         <div class="ticker-track" aria-hidden="true">
           <span class="ticker-item">Huevos Rancheros</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Chorizo Sunrise</span>
+          <span class="ticker-item">Chilaquiles</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Migas</span>
+          <span class="ticker-item">Huevos con Chorizo</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Molletes</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Burrito de Desayuno</span>
+          <span class="ticker-separator">•</span>
+          <span class="ticker-item">Tamales</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Fresh Prep Daily</span>
           <span class="ticker-separator">•</span>
-          <span class="ticker-item">Breakfast Burritos</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Chilaquiles</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Mole Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Taco Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Birria Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Pozole Day</span>
-          <span class="ticker-separator">•</span>
-          <span class="ticker-item">Seafood Day</span>
+          <span class="ticker-item">Weekly Rotation</span>
           <span class="ticker-separator">•</span>
           <span class="ticker-item">Weekend Brunch</span>
           <span class="ticker-separator">•</span>
@@ -1677,7 +1673,7 @@
         <article class="menu-card reveal" style="transition-delay: 80ms">
           <span class="menu-emoji" aria-hidden="true">🍳</span>
           <h3>Huevos Rancheros</h3>
-          <p>Ranch-style eggs with crispy tortillas, house red salsa, and queso fresco.</p>
+          <p>Fried eggs on corn tortillas with ranchero sauce, beans, and avocado.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
@@ -1685,9 +1681,9 @@
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 160ms">
-          <span class="menu-emoji" aria-hidden="true">🌯</span>
-          <h3>Breakfast Burrito</h3>
-          <p>Scrambled eggs, chorizo, roasted peppers, and salsa verde wrapped in a warm tortilla.</p>
+          <span class="menu-emoji" aria-hidden="true">🌮</span>
+          <h3>Chilaquiles</h3>
+          <p>Tortilla chips simmered in salsa with crema, cotija, and a fried egg.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
@@ -1695,9 +1691,9 @@
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 240ms">
-          <span class="menu-emoji" aria-hidden="true">🥚</span>
-          <h3>Migas</h3>
-          <p>Crispy tortilla strips with scrambled eggs, melted cheese, and roasted chiles.</p>
+          <span class="menu-emoji" aria-hidden="true">🌶️</span>
+          <h3>Huevos con Chorizo</h3>
+          <p>Scrambled eggs with Mexican chorizo, sliced avocado, and warm tortillas.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
@@ -1705,9 +1701,9 @@
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 320ms">
-          <span class="menu-emoji" aria-hidden="true">🌮</span>
-          <h3>Chilaquiles</h3>
-          <p>Tortilla chips in red salsa with crema, cotija, and a fried egg.</p>
+          <span class="menu-emoji" aria-hidden="true">🥖</span>
+          <h3>Molletes</h3>
+          <p>Bolillo rolls with beans, melted cheese, and fresh pico de gallo.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
@@ -1715,9 +1711,9 @@
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 400ms">
-          <span class="menu-emoji" aria-hidden="true">☀️</span>
-          <h3>Chorizo Sunrise</h3>
-          <p>Chorizo, eggs, sliced avocado, and warm tortillas.</p>
+          <span class="menu-emoji" aria-hidden="true">🌯</span>
+          <h3>Burrito de Desayuno</h3>
+          <p>Eggs, potato, cheese, and salsa wrapped in a warm flour tortilla.</p>
           <div class="menu-meta">
             <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
@@ -1725,11 +1721,11 @@
         </article>
 
         <article class="menu-card reveal" style="transition-delay: 480ms">
-          <span class="menu-emoji" aria-hidden="true">👑</span>
-          <h3>Jalapeño Hash</h3>
-          <p>Jalapeño hash with eggs your way and pickled peppers.</p>
+          <span class="menu-emoji" aria-hidden="true">🌽</span>
+          <h3>Tamales</h3>
+          <p>Steamed masa tamales served with salsa on the side.</p>
           <div class="menu-meta">
-            <span class="menu-category">Lunch</span>
+            <span class="menu-category">Breakfast</span>
             <span class="menu-tag">Fresh</span>
           </div>
         </article>
