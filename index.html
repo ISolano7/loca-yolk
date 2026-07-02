@@ -79,6 +79,7 @@
 />
 
 <!-- et:institutional-operational-lineage -->
+  <link rel="canonical" href="https://loca-yolk.evidtech.com/" />
   </head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1232,10 +1233,107 @@
         }
 
       } /* end @layer components */
+      /* ── SKIP LINK ─────────────────────────────────────────────── */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: var(--space-md);
+        z-index: calc(var(--z-nav) + 10);
+        padding: 0.75rem 1rem;
+        background: var(--yellow);
+        color: #111;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: top 200ms ease;
+      }
+      .skip-link:focus {
+        top: calc(var(--ticker-height) + var(--nav-height) + 0.5rem);
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+      }
+
+      /* ── PRINT STYLES ──────────────────────────────────────────── */
+      @media print {
+        .ticker,
+        .nav,
+        .hero-photo,
+        .hero-overlay,
+        .hero-geometry,
+        .scroll-hint,
+        .about,
+        .weekly,
+        .order-banner,
+        .footer-mesh,
+        .footer-social,
+        .footer-tags,
+        .et-watermark,
+        .prototype-badge {
+          display: none !important;
+        }
+
+        html,
+        body {
+          background: #fff !important;
+          color: #000 !important;
+        }
+
+        body {
+          padding: 0 !important;
+        }
+
+        .hero,
+        .menu,
+        .hours,
+        .footer {
+          padding: 1rem 0 !important;
+          min-height: auto !important;
+          color: #000 !important;
+        }
+
+        .menu-grid {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 1rem !important;
+        }
+
+        .menu-card {
+          break-inside: avoid;
+          border: 1px solid #ddd !important;
+          background: #fff !important;
+          color: #000 !important;
+        }
+
+        .hours-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        .hours-table td {
+          border: 1px solid #ddd;
+          padding: 0.5rem;
+        }
+
+        .footer-prototype-notice {
+          display: block !important;
+          margin-top: 1rem;
+          padding-top: 0.5rem;
+          border-top: 1px solid #ddd;
+          font-size: 0.8rem;
+          color: #555 !important;
+        }
+
+        a {
+          text-decoration: none !important;
+          color: #000 !important;
+        }
+      }
+
     </style>
   </head>
 
   <body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- ── TICKER ──────────────────────────────────────────────────── -->
     <div class="ticker" aria-hidden="true">
@@ -1314,6 +1412,8 @@
         <li><a href="#hours">Hours</a></li>
       </ul>
     </nav>
+
+    <main id="main-content">
 
     <!-- ── HERO ───────────────────────────────────────────────────── -->
     <section class="hero" id="hero" aria-labelledby="hero-h1">
@@ -1592,6 +1692,7 @@
         </div>
       </div>
     </section>
+    </main>
 
     <!-- ── ONLINE ORDER BANNER ────────────────────────────────────── -->
     <div class="order-banner" role="complementary" aria-label="Ordering concept notice">
